@@ -1,6 +1,7 @@
 package ru.solpro.data;
 
 import java.util.Date;
+import java.time.*;
 
 /**
  * Электропоезд (Номер состава, маршрут, время отправления, путевое время)
@@ -41,5 +42,17 @@ public class ElectricTrain {
 
     public void setDepartureTime(Date departureTime) {
         this.departureTime = departureTime;
+    }
+
+    public ElectricTrain(int trainNumber, Route route, Date departureTime, Date arrivalTime) {
+        this.trainNumber = trainNumber;
+        this.route = route;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+    }
+
+    public long getTravelTime() {
+        long result = arrivalTime.getTime() - departureTime.getTime();
+        return result;
     }
 }

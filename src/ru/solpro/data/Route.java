@@ -1,24 +1,37 @@
 package ru.solpro.data;
 
-import java.util.ArrayList;
-
 /**
  * Маршрут (Начальная станция, конечная станция)
  */
 public class Route {
     private Station departure;   //отправление
     private Station arrival;     //прибытие
-//    private ArrayList<Station> stations;
 
-    public Route() {
-
+    /**
+     * @param departure Станция отправления
+     * @param arrival Станция прибытия
+     */
+    public Route(Station departure, Station arrival) {
+        this.departure = departure;
+        this.arrival = arrival;
     }
 
+    /**
+     * @return Станция отправления
+     */
     public Station getDeparture() {
         return departure;
     }
 
+    /**
+     * @return Станция прибытия
+     */
     public Station getArrival() {
         return arrival;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + departure + "->" + arrival + "}";
     }
 }

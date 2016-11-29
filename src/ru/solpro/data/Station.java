@@ -10,10 +10,6 @@ public class Station {
         this.nameStation = nameStation;
     }
 
-    public String getNameStation() {
-        return nameStation;
-    }
-
     @Override
     public String toString() {
         return nameStation;
