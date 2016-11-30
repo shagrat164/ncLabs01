@@ -15,14 +15,14 @@ public class HelpCommand implements Command {
     @Override
     public boolean execute(String[] args) {
         if (args == null) {
-            System.out.println("Available commands:\n" + MSG_SPLIT);
+            System.out.println("Доступные команды:\n" + MSG_SPLIT);
             for (Command cmd : commands.values()) {
                 System.out.println(cmd.getName() + ": " + cmd.getDescription());
             }
             System.out.println(MSG_SPLIT);
         } else {
             for (String cmd : args) {
-                System.out.println("Help for command " + cmd + ":\n" + MSG_SPLIT);
+                System.out.println("Справка по команде " + cmd + ":\n" + MSG_SPLIT);
                 Command command = commands.get(cmd.toUpperCase());
                 if (command == null) {
                     System.out.println(MSG_COMMAND_NOT_FOUND);

@@ -1,7 +1,6 @@
-package ru.solpro.data;
+package ru.solpro.model;
 
 import java.util.Date;
-import java.time.*;
 
 /**
  * Электропоезд (Номер состава, маршрут, время отправления, путевое время)

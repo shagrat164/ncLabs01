@@ -37,8 +37,6 @@ public class MainApp {
         try {
             CommandController commandController = new CommandController();
             commandController.execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) {/*NOP*/}
     }
 }

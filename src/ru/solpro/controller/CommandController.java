@@ -11,7 +11,6 @@ import java.util.TreeMap;
  */
 public class CommandController {
     private static final String MSG_COMMAND_NOT_FOUND = "Команда не найдена.";
-    private static final String MSG_SPLIT = "==========================================";
 
     private static Map<String, Command> commands;
 

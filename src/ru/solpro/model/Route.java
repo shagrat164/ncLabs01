@@ -1,4 +1,4 @@
-package ru.solpro.data;
+package ru.solpro.model;
 
 /**
  * Маршрут (Начальная станция, конечная станция)
