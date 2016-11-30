@@ -1,5 +1,9 @@
 package ru.solpro;
 
+import ru.solpro.controller.CommandController;
+
+import java.io.IOException;
+
 /**
  * Информационная система "Расписание электричек"
  * Структура:
@@ -30,6 +34,11 @@ package ru.solpro;
 
 public class MainApp {
     public static void main(String[] args) {
-
+        try {
+            CommandController commandController = new CommandController();
+            commandController.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
