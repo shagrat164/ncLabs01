@@ -1,22 +1,68 @@
 package ru.solpro.model;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.TreeSet;
 
 /**
- * Электропоезд (Номер состава, маршрут, время отправления, путевое время)
+ * Класс-модель для электропоезда (Номер состава, маршрут, время отправления, путевое время)
+ *
+ * @author Protsvetov Danila
  */
 public class ElectricTrain {
     private int trainNumber;    //номер поезда
     private Route route;        //маршрут
-    private Date departureTime; //время отправления
-    private Date arrivalTime;   //время прибытия
+    private TreeSet<Schedule> trainTimetable;
 
-    public Date getArrivalTime() {
-        return arrivalTime;
+    /**
+     * Конструктор для создания поезда
+     *
+     * @param trainNumber Номер поезда
+     * @param route Маршрут
+     */
+    public ElectricTrain(int trainNumber, Route route) {
+        this.trainNumber = trainNumber;
+        this.route = route;
+        this.trainTimetable = new TreeSet<>();
     }
 
-    public void setArrivalTime(Date arrivalTime) {
-        this.arrivalTime = arrivalTime;
+    public TreeSet<Schedule> getTrainTimetable() {
+        return trainTimetable;
+    }
+
+    /**
+     *
+     * @param departureDateTime в формате yyyy-mm-dd hh:mm
+     * @param hours Время движения в часах
+     */
+    public void addTimetable(String departureDateTime, long hours) {
+        this.addTimetable(departureDateTime, hours, 0);
+    }
+
+    /**
+     *
+     * @param departureDateTime в формате yyyy-mm-dd hh:mm
+     * @param hours Время движения в часах
+     * @param min Время движения минут
+     */
+    public void addTimetable(String departureDateTime, long hours, long min) {
+        String[] stringsDateTime = departureDateTime.split(" ");
+        String[] stringsDate = stringsDateTime[0].split("-");
+        String[] stringsTime = stringsDateTime[1].split(":");
+
+        LocalDate localDate = LocalDate.of(Integer.parseInt(stringsDate[0]), Integer.parseInt(stringsDate[1]), Integer.parseInt(stringsDate[2]));
+        LocalTime localTime = LocalTime.of(Integer.parseInt(stringsTime[0]), Integer.parseInt(stringsTime[1]));
+
+        this.trainTimetable.add(new Schedule(LocalDateTime.of(localDate, localTime), hours, min));
+    }
+
+    public void addTimetable(LocalDateTime departureDateTime, long hours) {
+        this.addTimetable(departureDateTime, hours, 0);
+    }
+
+    public void addTimetable(LocalDateTime departureDateTime, long hours, long min) {
+        this.trainTimetable.add(new Schedule(departureDateTime, hours, min));
     }
 
     public int getTrainNumber() {
@@ -35,23 +81,12 @@ public class ElectricTrain {
         this.route = route;
     }
 
-    public Date getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(Date departureTime) {
-        this.departureTime = departureTime;
-    }
-
-    public ElectricTrain(int trainNumber, Route route, Date departureTime, Date arrivalTime) {
-        this.trainNumber = trainNumber;
-        this.route = route;
-        this.departureTime = departureTime;
-        this.arrivalTime = arrivalTime;
-    }
-
-    public long getTravelTime() {
-        long result = arrivalTime.getTime() - departureTime.getTime();
-        return result;
+    @Override
+    public String toString() {
+        return "ElectricTrain{" +
+                "trainNumber=" + trainNumber +
+                ", route=" + route +
+                ", trainTimetable=" + trainTimetable +
+                '}';
     }
 }

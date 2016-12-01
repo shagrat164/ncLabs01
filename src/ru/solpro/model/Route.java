@@ -1,7 +1,9 @@
 package ru.solpro.model;
 
 /**
- * Маршрут (Начальная станция, конечная станция)
+ * Класс-модель для маршрута (Начальная станция, конечная станция)
+ *
+ * @author Protsvetov Danila
  */
 public class Route {
     private Station departure;   //отправление

@@ -1,7 +1,9 @@
 package ru.solpro.model;
 
 /**
- * Станция
+ * Класс-модель для станции
+ *
+ * @author Protsvetov Danila
  */
 public class Station {
     private String nameStation;
