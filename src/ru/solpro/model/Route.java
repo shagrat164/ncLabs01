@@ -6,6 +6,8 @@ package ru.solpro.model;
  * @author Protsvetov Danila
  */
 public class Route {
+    private static int count;
+    private int id;
     private Station departure;   //отправление
     private Station arrival;     //прибытие
 
@@ -16,6 +18,12 @@ public class Route {
     public Route(Station departure, Station arrival) {
         this.departure = departure;
         this.arrival = arrival;
+        count += 1;
+        id = count;
+    }
+
+    public int getId() {
+        return id;
     }
 
     /**
@@ -34,6 +42,25 @@ public class Route {
 
     @Override
     public String toString() {
-        return "{" + departure + "->" + arrival + "}";
+        return "[" + id + "{" + departure + "->" + arrival + "}]";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Route route = (Route) o;
+
+        if (!departure.equals(route.departure)) return false;
+        return arrival.equals(route.arrival);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = departure.hashCode();
+        result = 31 * result + arrival.hashCode();
+        return result;
     }
 }

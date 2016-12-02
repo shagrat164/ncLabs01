@@ -9,16 +9,18 @@ import java.time.format.DateTimeFormatter;
  * @author Protsvetov Danila
  */
 public class Schedule {
-    private LocalDateTime departureDateTime; //дата/время отправления
-    private LocalDateTime arrivalDateTime;   //дата/время прибытия
-    private long hour;   //время в пути
-    private long min;    //время в пути
+    private ElectricTrain electricTrain;        //принадлежность к поезду
+    private LocalDateTime departureDateTime;    //дата/время отправления
+    private LocalDateTime arrivalDateTime;      //дата/время прибытия
+    private long hour;                          //время в пути
+    private long min;                           //время в пути
 
-    Schedule(LocalDateTime departureDateTime, long hour) {
-        this(departureDateTime, hour, 0);
+    Schedule(ElectricTrain electricTrain, LocalDateTime departureDateTime, long hour) {
+        this(electricTrain, departureDateTime, hour, 0);
     }
 
-    Schedule(LocalDateTime departureDateTime, long hour, long min) {
+    Schedule(ElectricTrain electricTrain, LocalDateTime departureDateTime, long hour, long min) {
+        this.electricTrain = electricTrain;
         this.departureDateTime = departureDateTime;
         this.hour = hour;
         this.min = min;
@@ -44,5 +46,19 @@ public class Schedule {
                 departureDateTime.format(DateTimeFormatter.ofPattern("dd.mm.yyyy hh:mm:ss")) +
                 ", " + this.getTravelTime() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Schedule schedule = (Schedule) o;
+        return electricTrain.equals(schedule.electricTrain);
+    }
+
+    @Override
+    public int hashCode() {
+        return electricTrain.hashCode();
     }
 }
