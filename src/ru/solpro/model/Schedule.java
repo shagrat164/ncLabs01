@@ -9,34 +9,53 @@ import java.time.format.DateTimeFormatter;
  * @author Protsvetov Danila
  */
 public class Schedule {
-    private ElectricTrain electricTrain;        //принадлежность к поезду
+    private static int count;
+    private int id;
     private LocalDateTime departureDateTime;    //дата/время отправления
-    private LocalDateTime arrivalDateTime;      //дата/время прибытия
     private long hour;                          //время в пути
     private long min;                           //время в пути
 
-    Schedule(ElectricTrain electricTrain, LocalDateTime departureDateTime, long hour) {
-        this(electricTrain, departureDateTime, hour, 0);
+    Schedule(int id, LocalDateTime departureDateTime, long hour) {
+        this(id, departureDateTime, hour, 0);
     }
 
-    Schedule(ElectricTrain electricTrain, LocalDateTime departureDateTime, long hour, long min) {
-        this.electricTrain = electricTrain;
+    Schedule(int id, LocalDateTime departureDateTime, long hour, long min) {
+        count += 1;
+        this.id = id;
         this.departureDateTime = departureDateTime;
         this.hour = hour;
         this.min = min;
     }
 
-    public LocalDateTime getDepartureDateTime() {
+    Schedule(LocalDateTime departureDateTime, long hour) {
+        this(departureDateTime, hour, 0);
+    }
+
+    Schedule(LocalDateTime departureDateTime, long hour, long min) {
+        count += 1;
+        this.id = count;
+        this.departureDateTime = departureDateTime;
+        this.hour = hour;
+        this.min = min;
+    }
+
+    int getId() {
+        return id;
+    }
+
+//    public int getNumberTrain() {
+//        return numberTrain;
+//    }
+
+    LocalDateTime getDepartureDateTime() {
         return departureDateTime;
     }
 
-    public LocalDateTime getArrivalDateTime() {
-        this.arrivalDateTime = departureDateTime.plusHours(hour);
-        this.arrivalDateTime = departureDateTime.plusMinutes(min);
-        return arrivalDateTime;
+    LocalDateTime getArrivalDateTime() {
+        return departureDateTime.plusHours(hour).plusMinutes(min);
     }
 
-    private String getTravelTime() {
+    String getTravelTime() {
         return hour + ":" + min;
     }
 
@@ -46,19 +65,5 @@ public class Schedule {
                 departureDateTime.format(DateTimeFormatter.ofPattern("dd.mm.yyyy hh:mm:ss")) +
                 ", " + this.getTravelTime() +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Schedule schedule = (Schedule) o;
-        return electricTrain.equals(schedule.electricTrain);
-    }
-
-    @Override
-    public int hashCode() {
-        return electricTrain.hashCode();
     }
 }

@@ -5,17 +5,31 @@ package ru.solpro.model;
  *
  * @author Protsvetov Danila
  */
-public class Route {
+public class Route implements Comparable<Route> {
     private static int count;
     private int id;
     private Station departure;   //отправление
     private Station arrival;     //прибытие
 
     /**
-     * @param departure Станция отправления
-     * @param arrival Станция прибытия
+     *
+     * @param id           идентификатор маршрута
+     * @param departure    станция отправления
+     * @param arrival      станция прибытия
      */
-    public Route(Station departure, Station arrival) {
+    Route(int id, Station departure, Station arrival) {
+        count += 1;
+        this.id = id;
+        this.departure = departure;
+        this.arrival = arrival;
+    }
+
+    /**
+     *
+     * @param departure     станция отправления
+     * @param arrival       станция прибытия
+     */
+    Route(Station departure, Station arrival) {
         this.departure = departure;
         this.arrival = arrival;
         count += 1;
@@ -27,22 +41,35 @@ public class Route {
     }
 
     /**
-     * @return Станция отправления
+     *
+     * @return станция отправления
      */
-    public Station getDeparture() {
+    Station getDeparture() {
         return departure;
     }
 
     /**
-     * @return Станция прибытия
+     *
+     * @return станция прибытия
      */
-    public Station getArrival() {
+    Station getArrival() {
         return arrival;
     }
 
     @Override
+    public int compareTo(Route o) {
+        if (id > o.getId()) {
+            return 1;
+        } else if (id < o.getId()) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
     public String toString() {
-        return "[" + id + "{" + departure + "->" + arrival + "}]";
+        return departure + "->" + arrival;
     }
 
     @Override

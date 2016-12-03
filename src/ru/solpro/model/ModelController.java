@@ -1,10 +1,5 @@
 package ru.solpro.model;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Created by Администратор on 02.12.2016.
  */
@@ -12,7 +7,7 @@ public class ModelController {
 //    private HashSet<Station> stations;
 //    private HashSet<Route> routes;
 //    private ArrayList<ElectricTrain> electricTrains;
-    private StationController stationController = new StationController();
+    private StationController stationController = StationController.getInstance();
 
     public ModelController() {
 //        Station station1 = new Station("САРАТОВ-1");

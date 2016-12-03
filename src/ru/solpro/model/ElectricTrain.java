@@ -6,14 +6,14 @@ import java.time.LocalTime;
 import java.util.TreeSet;
 
 /**
- * Класс-модель для электропоезда (Номер состава, маршрут, время отправления, путевое время)
+ * Класс-модель для электропоезда (Номер состава, маршрут, <viev>Schedule</viev>)
  *
  * @author Protsvetov Danila
  */
-public class ElectricTrain {
-    private int trainNumber;    //номер поезда
-    private Route route;        //маршрут
-    private TreeSet<Schedule> trainTimetable;
+public class ElectricTrain implements Comparable<ElectricTrain> {
+    private int trainNumber;                    //номер поезда
+    private Route route;                        //маршрут
+    private TreeSet<Schedule> trainTimetable;   //расписание
 
     /**
      * Конструктор для создания поезда
@@ -21,19 +21,24 @@ public class ElectricTrain {
      * @param trainNumber Номер поезда
      * @param route Маршрут
      */
-    public ElectricTrain(int trainNumber, Route route) {
+    ElectricTrain(int trainNumber, Route route) {
         this.trainNumber = trainNumber;
         this.route = route;
         this.trainTimetable = new TreeSet<>();
     }
 
-    public ElectricTrain(int trainNumber) {
+    /**
+     * Конструктор для создания поезда без маршрута
+     *
+     * @param trainNumber Номер поезда
+     */
+    ElectricTrain(int trainNumber) {
         this.trainNumber = trainNumber;
         this.route = null;
         this.trainTimetable = new TreeSet<>();
     }
 
-    public TreeSet<Schedule> getTrainTimetable() {
+    TreeSet<Schedule> getTrainTimetable() {
         return trainTimetable;
     }
 
@@ -42,8 +47,16 @@ public class ElectricTrain {
      * @param departureDateTime в формате yyyy-mm-dd hh:mm
      * @param hours Время движения в часах
      */
-    public void addTimetable(String departureDateTime, long hours) {
-        this.addTimetable(departureDateTime, hours, 0);
+    @Deprecated
+    void addTimetable(String departureDateTime, long hours) {
+        String[] stringsDateTime = departureDateTime.split(" ");
+        String[] stringsDate = stringsDateTime[0].split("-");
+        String[] stringsTime = stringsDateTime[1].split(":");
+
+        LocalDate localDate = LocalDate.of(Integer.parseInt(stringsDate[0]), Integer.parseInt(stringsDate[1]), Integer.parseInt(stringsDate[2]));
+        LocalTime localTime = LocalTime.of(Integer.parseInt(stringsTime[0]), Integer.parseInt(stringsTime[1]));
+
+        this.trainTimetable.add(new Schedule(LocalDateTime.of(localDate, localTime), hours));
     }
 
     /**
@@ -52,7 +65,8 @@ public class ElectricTrain {
      * @param hours Время движения в часах
      * @param min Время движения минут
      */
-    public void addTimetable(String departureDateTime, long hours, long min) {
+    @Deprecated
+    void addTimetable(String departureDateTime, long hours, long min) {
         String[] stringsDateTime = departureDateTime.split(" ");
         String[] stringsDate = stringsDateTime[0].split("-");
         String[] stringsTime = stringsDateTime[1].split(":");
@@ -60,31 +74,42 @@ public class ElectricTrain {
         LocalDate localDate = LocalDate.of(Integer.parseInt(stringsDate[0]), Integer.parseInt(stringsDate[1]), Integer.parseInt(stringsDate[2]));
         LocalTime localTime = LocalTime.of(Integer.parseInt(stringsTime[0]), Integer.parseInt(stringsTime[1]));
 
-        this.trainTimetable.add(new Schedule(this, LocalDateTime.of(localDate, localTime), hours, min));
+        this.trainTimetable.add(new Schedule(LocalDateTime.of(localDate, localTime), hours, min));
     }
 
-    public void addTimetable(LocalDateTime departureDateTime, long hours) {
-        this.addTimetable(departureDateTime, hours, 0);
+    void addTimetable(LocalDateTime departureDateTime, long hours) {
+        this.trainTimetable.add(new Schedule(departureDateTime, hours));
     }
 
-    public void addTimetable(LocalDateTime departureDateTime, long hours, long min) {
-        this.trainTimetable.add(new Schedule(this, departureDateTime, hours, min));
+    void addTimetable(LocalDateTime departureDateTime, long hours, long min) {
+        this.trainTimetable.add(new Schedule(departureDateTime, hours, min));
     }
 
-    public int getTrainNumber() {
+    int getTrainNumber() {
         return trainNumber;
     }
 
-    public void setTrainNumber(int trainNumber) {
+    void setTrainNumber(int trainNumber) {
         this.trainNumber = trainNumber;
     }
 
-    public Route getRoute() {
+    Route getRoute() {
         return route;
     }
 
-    public void setRoute(Route route) {
+    void setRoute(Route route) {
         this.route = route;
+    }
+
+    @Override
+    public int compareTo(ElectricTrain o) {
+        if (trainNumber > o.getTrainNumber()) {
+            return 1;
+        } else if (trainNumber < o.getTrainNumber()) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
     @Override
@@ -92,7 +117,6 @@ public class ElectricTrain {
         return "ElectricTrain{" +
                 "trainNumber=" + trainNumber +
                 ", route=" + route +
-                ", trainTimetable=" + trainTimetable +
                 '}';
     }
 

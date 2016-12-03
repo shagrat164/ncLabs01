@@ -5,19 +5,36 @@ package ru.solpro.model;
  *
  * @author Protsvetov Danila
  */
-public class Station {
+public class Station implements Comparable<Station> {
     private static int count;
     private int id;
     private String nameStation;
 
-    Station(String nameStation) {
+    Station(int id, String name) {
         count += 1;
-        id = count;
-        this.nameStation = nameStation;
+        this.id = id;
+        this.nameStation = name;
+    }
+
+    Station(String name) {
+        count += 1;
+        this.id = count;
+        this.nameStation = name;
     }
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public int compareTo(Station o) {
+        if (id > o.getId()) {
+            return 1;
+        } else if (id < o.getId()) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
     @Override
