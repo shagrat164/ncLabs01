@@ -8,44 +8,26 @@ import java.time.format.DateTimeFormatter;
  *
  * @author Protsvetov Danila
  */
-public class Schedule {
-    private static int count;
-    private int id;
+public class Schedule implements Comparable<Schedule> {
+    private int numberTrain;
     private LocalDateTime departureDateTime;    //дата/время отправления
     private long hour;                          //время в пути
     private long min;                           //время в пути
 
-    Schedule(int id, LocalDateTime departureDateTime, long hour) {
-        this(id, departureDateTime, hour, 0);
+    Schedule(int numberTrain, LocalDateTime departureDateTime, long hour) {
+        this(numberTrain, departureDateTime, hour, 0);
     }
 
-    Schedule(int id, LocalDateTime departureDateTime, long hour, long min) {
-        count += 1;
-        this.id = id;
+    Schedule(int numberTrain, LocalDateTime departureDateTime, long hour, long min) {
+        this.numberTrain = numberTrain;
         this.departureDateTime = departureDateTime;
         this.hour = hour;
         this.min = min;
     }
 
-    Schedule(LocalDateTime departureDateTime, long hour) {
-        this(departureDateTime, hour, 0);
+    public int getNumberTrain() {
+        return numberTrain;
     }
-
-    Schedule(LocalDateTime departureDateTime, long hour, long min) {
-        count += 1;
-        this.id = count;
-        this.departureDateTime = departureDateTime;
-        this.hour = hour;
-        this.min = min;
-    }
-
-    int getId() {
-        return id;
-    }
-
-//    public int getNumberTrain() {
-//        return numberTrain;
-//    }
 
     LocalDateTime getDepartureDateTime() {
         return departureDateTime;
@@ -60,10 +42,22 @@ public class Schedule {
     }
 
     @Override
+    public int compareTo(Schedule o) {
+        if (departureDateTime.isAfter(o.departureDateTime)) {
+            return 1;
+        } else if (departureDateTime.isBefore(o.departureDateTime)) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
     public String toString() {
-        return "Schedule{" +
-                departureDateTime.format(DateTimeFormatter.ofPattern("dd.mm.yyyy hh:mm:ss")) +
-                ", " + this.getTravelTime() +
+        return "Отправление " +
+                departureDateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) +
+                "; Прибытие " +
+                getArrivalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) +
                 '}';
     }
 }

@@ -63,6 +63,11 @@ public class RouteController implements Controller<Route> {
      */
     @Override
     public Route search(int id) {
+        for (Route route : routes) {
+            if (route.getId() == id) {
+                return route;
+            }
+        }
         return null;
     }
 

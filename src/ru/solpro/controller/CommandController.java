@@ -20,30 +20,28 @@ public class CommandController {
 
     public CommandController() {
         commands = new TreeMap<>();
+        Command cmd;
 
-        Command cmd = new ExitCommand();
-        commands.put(cmd.getName(), cmd);
-
-        cmd = new ExportCommand();
-        commands.put(cmd.getName(), cmd);
-
-        cmd = new ImportCommand();
+        cmd = new ExitCommand();
         commands.put(cmd.getName(), cmd);
 
         cmd = new ViewCommand();
         commands.put(cmd.getName(), cmd);
 
-        cmd = new SearchCommand();
-        commands.put(cmd.getName(), cmd);
-
         cmd = new HelpCommand();
         commands.put(cmd.getName(), cmd);
 
-        cmd = new AddCommand();
-        commands.put(cmd.getName(), cmd);
-
-        cmd = new DelCommand();
-        commands.put(cmd.getName(), cmd);
+//        cmd = new SaveCommand();
+//        commands.put(cmd.getName(), cmd);
+//
+//        cmd = new SearchCommand();
+//        commands.put(cmd.getName(), cmd);
+//
+//        cmd = new AddCommand();
+//        commands.put(cmd.getName(), cmd);
+//
+//        cmd = new DelCommand();
+//        commands.put(cmd.getName(), cmd);
     }
 
     public void execute() throws IOException {

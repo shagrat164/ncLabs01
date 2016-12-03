@@ -3,7 +3,7 @@ package ru.solpro.controller;
 /**
  * Created by Администратор on 30.11.2016.
  */
-public class ExportCommand implements Command {
+public class SaveCommand implements Command {
     @Override
     public boolean execute(String[] args) {
         return true;
@@ -16,11 +16,11 @@ public class ExportCommand implements Command {
 
     @Override
     public String getName() {
-        return "EXPORT";
+        return "SAVE";
     }
 
     @Override
     public String getDescription() {
-        return "Экспорт данных";
+        return "Импорт данных";
     }
 }
