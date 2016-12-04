@@ -2,6 +2,7 @@ package ru.solpro.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.TreeSet;
 
 public class ElectricTrainController implements Controller<ElectricTrain> {
@@ -143,9 +144,18 @@ public class ElectricTrainController implements Controller<ElectricTrain> {
      * Расписание поездов за ближайшие 24 часа
      * @return Массив с расписанием.
      */
-    public ArrayList<Schedule> viewSchedule() {
-        ArrayList<Schedule> result = new ArrayList<>();
-
+    public LinkedHashMap<ElectricTrain, ArrayList<Schedule>> viewSchedule() {
+        LinkedHashMap<ElectricTrain, ArrayList<Schedule>> result = new LinkedHashMap<>();
+        LocalDateTime borderDateTime = LocalDateTime.now().plusHours(24);
+        for (ElectricTrain electricTrain : electricTrains) {
+            ArrayList<Schedule> resultSchedule = new ArrayList<>();
+            for (Schedule schedule : electricTrain.getTrainTimetable()) {
+                if (schedule.getDepartureDateTime().isBefore(borderDateTime)) {
+                    resultSchedule.add(schedule);
+                }
+            }
+            result.put(electricTrain, resultSchedule);
+        }
         return result;
     }
 

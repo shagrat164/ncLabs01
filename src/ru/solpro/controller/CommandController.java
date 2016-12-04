@@ -31,35 +31,41 @@ public class CommandController {
         cmd = new HelpCommand();
         commands.put(cmd.getName(), cmd);
 
+        cmd = new AddCommand();
+        commands.put(cmd.getName(), cmd);
+
 //        cmd = new SaveCommand();
 //        commands.put(cmd.getName(), cmd);
 //
 //        cmd = new SearchCommand();
 //        commands.put(cmd.getName(), cmd);
 //
-//        cmd = new AddCommand();
-//        commands.put(cmd.getName(), cmd);
-//
 //        cmd = new DelCommand();
 //        commands.put(cmd.getName(), cmd);
     }
 
-    public void execute() throws IOException {
+    public void execute() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         boolean result = true;
         do {
-            System.out.print("#> ");
-            String fullCommand = reader.readLine();
-            ParsedCommand parsedCommand = new ParsedCommand(fullCommand);
-            if (parsedCommand.command == null || "".equals(parsedCommand.command)) {
-                continue;
+            try {
+                System.out.print("#> ");
+                String fullCommand = reader.readLine();
+                ParsedCommand parsedCommand = new ParsedCommand(fullCommand);
+                if (parsedCommand.command == null || "".equals(parsedCommand.command)) {
+                    continue;
+                }
+                Command cmd = commands.get(parsedCommand.command.toUpperCase());
+                if (cmd == null) {
+                    System.out.println(MSG_COMMAND_NOT_FOUND);
+                    continue;
+                }
+                result = cmd.execute(parsedCommand.args);
+            } catch (IOException e) {
+                /*NOP*/
+            } catch (SystemException e) {
+                System.err.println(e);
             }
-            Command cmd = commands.get(parsedCommand.command.toUpperCase());
-            if (cmd == null) {
-                System.out.println(MSG_COMMAND_NOT_FOUND);
-                continue;
-            }
-            result = cmd.execute(parsedCommand.args);
         } while (result);
     }
 }

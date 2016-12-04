@@ -57,7 +57,6 @@ public class Schedule implements Comparable<Schedule> {
         return "Отправление " +
                 departureDateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) +
                 "; Прибытие " +
-                getArrivalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) +
-                '}';
+                getArrivalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
     }
 }

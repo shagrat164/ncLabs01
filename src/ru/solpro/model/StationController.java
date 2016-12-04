@@ -48,7 +48,7 @@ public class StationController implements Controller<Station> {
         Pattern p = Pattern.compile("^" + find.toUpperCase() + "$");
         Matcher m;
         for (Station station : stations) {
-            m = p.matcher(station.toString().toLowerCase());
+            m = p.matcher(station.toString().toUpperCase());
             if (m.matches()) {
                 result.add(station);
             }

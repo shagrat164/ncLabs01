@@ -1,6 +1,7 @@
 package ru.solpro;
 
 import ru.solpro.controller.CommandController;
+import ru.solpro.controller.SystemException;
 import ru.solpro.model.ElectricTrain;
 import ru.solpro.model.Route;
 import ru.solpro.model.Station;
@@ -42,37 +43,8 @@ import java.util.Set;
  */
 
 public class MainApp {
-//    private Set<Station> stations = new HashSet<>();
-//    private Set<Route> routes = new HashSet<>();
-//    private ArrayList<ElectricTrain> electricTrains = new ArrayList<>();
-//    private MainApp mainApp;
-
     public static void main(String[] args) {
-        try {
-            CommandController commandController = new CommandController();
-            commandController.execute();
-        } catch (IOException e) {/*NOP*/}
+        CommandController commandController = new CommandController();
+        commandController.execute();
     }
-
-//    /**
-//     * Конструктор заполняет данными основные коллекции для хранения данных
-//     */
-//    public MainApp() {
-//    }
-//
-//    public Set<Station> getStations() {
-//        return stations;
-//    }
-//
-//    public Set<Route> getRoutes() {
-//        return routes;
-//    }
-//
-//    public ArrayList<ElectricTrain> getElectricTrains() {
-//        return electricTrains;
-//    }
-//
-//    public MainApp getMainApp() {
-//        return mainApp;
-//    }
 }

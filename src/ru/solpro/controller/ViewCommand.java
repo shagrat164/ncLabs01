@@ -2,13 +2,17 @@ package ru.solpro.controller;
 
 import ru.solpro.model.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ViewCommand implements Command {
     @Override
-    public boolean execute(String[] args) {
+    public boolean execute(String[] args) throws SystemException, IOException{
         if (args == null) {
-            //TODO запилить вывод расписания на текущий день
+            printHelp();
             return true;
         }
         for (int i = 0; i < args.length; i++) {
@@ -23,12 +27,11 @@ public class ViewCommand implements Command {
                     viewTrains();
                     break;
                 case "SCHEDULE":
-                    if (args.length < 2) {
-                        break;
-                    }
-                    if (isNumber(args[i+1])) {
+                    if ((args.length == 2) && isNumber(args[i+1])) {
                         viewSchedule(Integer.parseInt(args[i+1]));
                         return true;
+                    } else {
+                        viewSchedule();
                     }
                     break;
                 default:
@@ -98,6 +101,25 @@ public class ViewCommand implements Command {
     }
 
     /**
+     * Расписание поездов за ближайшие 24 часа
+     */
+    private void viewSchedule() {
+        ElectricTrainController electricTrainController = ElectricTrainController.getInstance();
+        if (electricTrainController.get().isEmpty()) {
+            System.out.println("Не определено ни одного поезда.");
+            return;
+        }
+        LinkedHashMap<ElectricTrain, ArrayList<Schedule>> result = electricTrainController.viewSchedule();
+        Iterator<Map.Entry<ElectricTrain, ArrayList<Schedule>>> iterator = result.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<ElectricTrain, ArrayList<Schedule>> listEntry = iterator.next();
+            for (Schedule schedule : listEntry.getValue()) {
+                System.out.println(listEntry.getKey() + " " + schedule);
+            }
+        }
+    }
+
+    /**
      * Вывод расписания у определённого поезда
      * @param numberTrain   номер поезда
      */
@@ -112,6 +134,11 @@ public class ViewCommand implements Command {
         }
     }
 
+    /**
+     * Метод проверяет, является ли переданная строка числом
+     * @param s    строка для проверки
+     * @return     true - число, иначе false
+     */
     private boolean isNumber(String s) {
         char[] chars = s.toCharArray();
         for (char aChar : chars) {
