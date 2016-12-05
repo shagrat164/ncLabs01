@@ -44,8 +44,14 @@ public class ViewCommand implements Command {
 
     @Override
     public void printHelp() {
+        getDescription();
+        System.out.println("Данная команда позволяет просматривать данные в системе.");
         System.out.println("Список параметров команды:");
         System.out.println("STATIONS - выводит список станций.");
+        System.out.println("ROUTES - выводит список маршрутов.");
+        System.out.println("TRAINS - выводит список поездов.");
+        System.out.println("SCHEDULE - выводит расписание на ближайшие 24 часа.");
+        System.out.println("SCHEDULE [номер поезда]- выводит расписание определённого поезда.");
     }
 
     @Override
@@ -55,7 +61,7 @@ public class ViewCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "Отображение расписания электропоездов.";
+        return "Отображение данных системы.";
     }
 
     /**

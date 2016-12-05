@@ -20,6 +20,8 @@ public class HelpCommand implements Command {
                 System.out.println(cmd.getName() + ": " + cmd.getDescription());
             }
             System.out.println(MSG_SPLIT);
+            System.out.println("HELP [команда] - выводит справку по команде.");
+            System.out.println(MSG_SPLIT);
         } else {
             for (String cmd : args) {
                 System.out.println("Справка по команде " + cmd + ":\n" + MSG_SPLIT);

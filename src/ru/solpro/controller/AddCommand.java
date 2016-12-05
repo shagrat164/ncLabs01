@@ -7,6 +7,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * @author Protsvetov Danila
+ */
 public class AddCommand extends AlwaysCommand implements Command {
     @Override
     public boolean execute(String[] args) throws SystemException, IOException {
@@ -39,7 +42,13 @@ public class AddCommand extends AlwaysCommand implements Command {
 
     @Override
     public void printHelp() {
-
+        getDescription();
+        System.out.println("Данная команда позволяет добавлять данные в систему.");
+        System.out.println("Список параметров команды:");
+        System.out.println("STATION - добавление новой станций.");
+        System.out.println("ROUTE - добавление нового маршрута.");
+        System.out.println("TRAIN - добавление нового поезда.");
+        System.out.println("SCHEDULE - добавление расписания у поезда.");
     }
 
     @Override

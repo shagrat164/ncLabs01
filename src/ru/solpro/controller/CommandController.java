@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 /**
  * Created by Администратор on 30.11.2016.
+ * @author Protsvetov Danila
  */
 public class CommandController {
     private static final String MSG_COMMAND_NOT_FOUND = "Команда не найдена.";
