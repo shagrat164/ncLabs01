@@ -35,13 +35,13 @@ public class CommandController {
         cmd = new AddCommand();
         commands.put(cmd.getName(), cmd);
 
+        cmd = new DelCommand();
+        commands.put(cmd.getName(), cmd);
+
 //        cmd = new SaveCommand();
 //        commands.put(cmd.getName(), cmd);
 //
 //        cmd = new SearchCommand();
-//        commands.put(cmd.getName(), cmd);
-//
-//        cmd = new DelCommand();
 //        commands.put(cmd.getName(), cmd);
     }
 
