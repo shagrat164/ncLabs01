@@ -1,9 +1,8 @@
 package ru.solpro.view;
 
-import ru.solpro.controller.ElectricTrainController;
-import ru.solpro.controller.RouteController;
-import ru.solpro.controller.StationController;
-import ru.solpro.controller.SystemException;
+import ru.solpro.controller.*;
+import ru.solpro.controller.ElectricTrainModelController;
+import ru.solpro.controller.StationModelController;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -70,7 +69,7 @@ public class AddCommand extends AlwaysCommand implements Command {
      */
     private void addStation() throws SystemException, IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        StationController stationController = StationController.getInstance();
+        StationModelController stationController = StationModelController.getInstance();
 
         System.out.println("Для завершения операции добавления введите exit.");
 
@@ -98,7 +97,7 @@ public class AddCommand extends AlwaysCommand implements Command {
      */
     private void addRoute() throws SystemException, IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        RouteController routeController = RouteController.getInstance();
+        RouteModelController routeController = RouteModelController.getInstance();
 
         System.out.println("Для завершения операции добавления введите exit.");
 
@@ -135,7 +134,7 @@ public class AddCommand extends AlwaysCommand implements Command {
      */
     private void addTrain() throws SystemException, IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        ElectricTrainController electricTrainController = ElectricTrainController.getInstance();
+        ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
 
         System.out.println("Для завершения операции добавления введите exit.");
 
@@ -172,7 +171,7 @@ public class AddCommand extends AlwaysCommand implements Command {
      */
     private void addSchedule() throws SystemException, IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        ElectricTrainController electricTrainController = ElectricTrainController.getInstance();
+        ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
 
         System.out.println("Для завершения операции добавления введите exit.");
 

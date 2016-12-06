@@ -1,6 +1,5 @@
 package ru.solpro.controller;
 
-import ru.solpro.model.Controller;
 import ru.solpro.model.Route;
 import ru.solpro.model.Station;
 
@@ -12,11 +11,11 @@ import java.util.regex.Pattern;
 /**
  * @author Protsvetov Danila
  */
-public class RouteController implements Controller<Route> {
-    private static RouteController instance;
+public class RouteModelController implements ModelController<Route> {
+    private static RouteModelController instance;
     private TreeSet<Route> routes;
 
-    private RouteController() {
+    private RouteModelController() {
         routes = new TreeSet<>();
         // заполнение данными для первоначального тестирования
         add(1, 2);
@@ -28,9 +27,9 @@ public class RouteController implements Controller<Route> {
         add(1, 8);
     }
 
-    public static RouteController getInstance() {
+    public static RouteModelController getInstance() {
         if (instance == null) {
-            instance = new RouteController();
+            instance = new RouteModelController();
         }
         return instance;
     }
@@ -46,7 +45,7 @@ public class RouteController implements Controller<Route> {
     public ArrayList<Route> search(String find) {
         ArrayList<Route> result = new ArrayList<>();
         if (find.contains("*")) {
-            find = find.replace("*", ".");
+            find = find.replace("*", "[а-яА-ЯёЁa-zA-Z0-9-\\s]*");
         }
         if (find.contains("?")) {
             find = find.replace("?", "[а-яА-ЯёЁa-zA-Z0-9-\\s]*");
@@ -105,7 +104,7 @@ public class RouteController implements Controller<Route> {
     }
 
     public boolean add(int idDeparture, int idArrival) {
-        StationController stationController = StationController.getInstance();
+        StationModelController stationController = StationModelController.getInstance();
         Station departure = stationController.search(idDeparture);
         Station arrival = stationController.search(idArrival);
         if (departure == null || arrival == null || departure.equals(arrival)) {

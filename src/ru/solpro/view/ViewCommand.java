@@ -1,9 +1,8 @@
 package ru.solpro.view;
 
-import ru.solpro.controller.ElectricTrainController;
-import ru.solpro.controller.RouteController;
-import ru.solpro.controller.StationController;
-import ru.solpro.controller.SystemException;
+import ru.solpro.controller.*;
+import ru.solpro.controller.ElectricTrainModelController;
+import ru.solpro.controller.StationModelController;
 import ru.solpro.model.*;
 
 import java.io.IOException;
@@ -72,7 +71,7 @@ public class ViewCommand implements Command {
      * Вывод списка станций в системе
      */
     private void viewStations() {
-        StationController stationController = StationController.getInstance();
+        StationModelController stationController = StationModelController.getInstance();
         if (stationController.get().isEmpty()) {
             System.out.println("Не определено ни одной станции.");
             return;
@@ -86,7 +85,7 @@ public class ViewCommand implements Command {
      * Вывод списка маршрутов в системе
      */
     private void viewRoutes() {
-        RouteController routeController = RouteController.getInstance();
+        RouteModelController routeController = RouteModelController.getInstance();
         if (routeController.get().isEmpty()) {
             System.out.println("Не определено ни одного маршрута.");
             return;
@@ -100,7 +99,7 @@ public class ViewCommand implements Command {
      * Вывод списка поездов в системе
      */
     private void viewTrains() {
-        ElectricTrainController electricTrainController = ElectricTrainController.getInstance();
+        ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
         if (electricTrainController.get().isEmpty()) {
             System.out.println("Не определено ни одного поезда.");
             return;
@@ -114,7 +113,7 @@ public class ViewCommand implements Command {
      * Расписание поездов за ближайшие 24 часа
      */
     private void viewSchedule() {
-        ElectricTrainController electricTrainController = ElectricTrainController.getInstance();
+        ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
         if (electricTrainController.get().isEmpty()) {
             System.out.println("Не определено ни одного поезда.");
             return;
@@ -134,7 +133,7 @@ public class ViewCommand implements Command {
      * @param numberTrain   номер поезда
      */
     private void viewSchedule(int numberTrain) {
-        ElectricTrainController electricTrainController = ElectricTrainController.getInstance();
+        ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
         if (electricTrainController.get().isEmpty()) {
             System.out.println("Не определено ни одного поезда.");
             return;

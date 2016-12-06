@@ -15,7 +15,7 @@ import java.util.TreeMap;
 public class CommandController {
     private static Map<String, Command> commands;
 
-    static Map<String, Command> getCommands() {
+    public static Map<String, Command> getCommands() {
         return commands;
     }
 
@@ -41,8 +41,8 @@ public class CommandController {
         cmd = new SearchCommand();
         commands.put(cmd.getName(), cmd);
 
-//        cmd = new SaveCommand();
-//        commands.put(cmd.getName(), cmd);
+        cmd = new EditCommand();
+        commands.put(cmd.getName(), cmd);
     }
 
     public void execute() {

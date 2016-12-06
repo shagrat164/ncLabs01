@@ -1,6 +1,5 @@
 package ru.solpro.controller;
 
-import ru.solpro.model.Controller;
 import ru.solpro.model.Station;
 
 import java.util.ArrayList;
@@ -8,11 +7,11 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StationController implements Controller<Station> {
-    private static StationController instance;
+public class StationModelController implements ModelController<Station> {
+    private static StationModelController instance;
     private TreeSet<Station> stations;
 
-    private StationController() {
+    private StationModelController() {
         stations = new TreeSet<>();
         // заполнение данными для первоначального тестирования
         add("САРАТОВ-1");
@@ -25,9 +24,9 @@ public class StationController implements Controller<Station> {
         add("ВОЛЬСК");
     }
 
-    public static StationController getInstance() {
+    public static StationModelController getInstance() {
         if (instance == null) {
-            instance = new StationController();
+            instance = new StationModelController();
         }
         return instance;
     }
@@ -43,7 +42,7 @@ public class StationController implements Controller<Station> {
     public ArrayList<Station> search(String find) {
         ArrayList<Station> result = new ArrayList<>();
         if (find.contains("*")) {
-            find = find.replace("*", ".");
+            find = find.replace("*", "[а-яА-ЯёЁa-zA-Z0-9-\\s]*");
         }
         if (find.contains("?")) {
             find = find.replace("?", "[а-яА-ЯёЁa-zA-Z0-9-\\s]*");

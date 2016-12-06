@@ -1,6 +1,5 @@
 package ru.solpro.controller;
 
-import ru.solpro.model.Controller;
 import ru.solpro.model.ElectricTrain;
 import ru.solpro.model.Route;
 import ru.solpro.model.Schedule;
@@ -10,11 +9,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.TreeSet;
 
-public class ElectricTrainController implements Controller<ElectricTrain> {
-    private static ElectricTrainController instance;
+public class ElectricTrainModelController implements ModelController<ElectricTrain> {
+    private static ElectricTrainModelController instance;
     private TreeSet<ElectricTrain> electricTrains;
 
-    private ElectricTrainController() {
+    private ElectricTrainModelController() {
         electricTrains = new TreeSet<>();
         // заполнение данными для первоначального тестирования
         add(1000, 1);
@@ -59,9 +58,9 @@ public class ElectricTrainController implements Controller<ElectricTrain> {
         addScheduleLine(1206, LocalDateTime.now().plusDays(4), 10, 30);
     }
 
-    public static ElectricTrainController getInstance() {
+    public static ElectricTrainModelController getInstance() {
         if (instance == null) {
-            instance = new ElectricTrainController();
+            instance = new ElectricTrainModelController();
         }
         return instance;
     }
@@ -87,7 +86,7 @@ public class ElectricTrainController implements Controller<ElectricTrain> {
     }
 
     public boolean add(int trainNumber, int routeId) {
-        Route route = RouteController.getInstance().search(routeId);
+        Route route = RouteModelController.getInstance().search(routeId);
         if (route != null) {
             return electricTrains.add(new ElectricTrain(trainNumber, route));
         }

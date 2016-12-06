@@ -1,8 +1,8 @@
 package ru.solpro.view;
 
-import ru.solpro.controller.ElectricTrainController;
-import ru.solpro.controller.RouteController;
-import ru.solpro.controller.StationController;
+import ru.solpro.controller.ElectricTrainModelController;
+import ru.solpro.controller.RouteModelController;
+import ru.solpro.controller.StationModelController;
 import ru.solpro.model.ElectricTrain;
 import ru.solpro.model.Route;
 import ru.solpro.model.Station;
@@ -59,7 +59,7 @@ public class SearchCommand implements Command {
 
     private void searchStation() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        StationController stationController = StationController.getInstance();
+        StationModelController stationController = StationModelController.getInstance();
 
         System.out.print("\tВведите строку для поиска: ");
         String string = reader.readLine();
@@ -76,7 +76,7 @@ public class SearchCommand implements Command {
 
     private void searchRoute() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        RouteController routeController = RouteController.getInstance();
+        RouteModelController routeController = RouteModelController.getInstance();
 
         System.out.print("\tВведите строку для поиска: ");
         String string = reader.readLine();
@@ -93,7 +93,7 @@ public class SearchCommand implements Command {
 
     private void searchTrain() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        ElectricTrainController electricTrainController = ElectricTrainController.getInstance();
+        ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
 
         System.out.print("\tВведите номер поезда: ");
         Integer integer = Integer.parseInt(reader.readLine());

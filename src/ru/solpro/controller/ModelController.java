@@ -1,9 +1,9 @@
-package ru.solpro.model;
+package ru.solpro.controller;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
 
-public interface Controller<T> {
+public interface ModelController<T> {
 
     /**
      * Метод осуществляет поиск по строке поиска.
