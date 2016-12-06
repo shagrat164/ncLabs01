@@ -1,8 +1,9 @@
-package ru.solpro.controller;
+package ru.solpro.view;
 
-import ru.solpro.model.ElectricTrainController;
-import ru.solpro.model.RouteController;
-import ru.solpro.model.StationController;
+import ru.solpro.controller.ElectricTrainController;
+import ru.solpro.controller.RouteController;
+import ru.solpro.controller.StationController;
+import ru.solpro.controller.SystemException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,28 +19,26 @@ import java.time.format.DateTimeFormatter;
 public class AddCommand extends AlwaysCommand implements Command {
     @Override
     public boolean execute(String[] args) throws SystemException, IOException {
-        if (args == null) {
+        if (args == null || args.length < 1 || args.length > 1) {
             printHelp();
             return true;
         }
-        for (String arg : args) {
-            switch (arg.toUpperCase()) {
-                case "STATION":
-                    addStation();
-                    break;
-                case "ROUTE":
-                    addRoute();
-                    break;
-                case "TRAIN":
-                    addTrain();
-                    break;
-                case "SCHEDULE":
-                    addSchedule();
-                    break;
-                default:
-                    System.out.print("Неверный аргумент у команды. ");
-                    printHelp();
-            }
+        switch (args[0].toUpperCase()) {
+            case "STATION":
+                addStation();
+                break;
+            case "ROUTE":
+                addRoute();
+                break;
+            case "TRAIN":
+                addTrain();
+                break;
+            case "SCHEDULE":
+                addSchedule();
+                break;
+            default:
+                System.out.print("Неверный аргумент у команды. ");
+                printHelp();
         }
         return true;
     }
@@ -186,7 +185,6 @@ public class AddCommand extends AlwaysCommand implements Command {
             Integer numberTrain = Integer.parseInt(strNumberTrain);
             if (electricTrainController.search(numberTrain) == null) {
                 error("Невозможно добавить расписание.\nПоезда с номером " + numberTrain + " не существует.");
-                //TODO как на это реагировать?
             }
 
             System.out.print("\tДата отправления (dd.mm.yyyy): ");

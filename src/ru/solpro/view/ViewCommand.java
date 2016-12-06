@@ -1,5 +1,9 @@
-package ru.solpro.controller;
+package ru.solpro.view;
 
+import ru.solpro.controller.ElectricTrainController;
+import ru.solpro.controller.RouteController;
+import ru.solpro.controller.StationController;
+import ru.solpro.controller.SystemException;
 import ru.solpro.model.*;
 
 import java.io.IOException;

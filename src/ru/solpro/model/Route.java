@@ -29,7 +29,7 @@ public class Route implements Comparable<Route> {
      * @param departure     станция отправления
      * @param arrival       станция прибытия
      */
-    Route(Station departure, Station arrival) {
+    public Route(Station departure, Station arrival) {
         this.departure = departure;
         this.arrival = arrival;
         count += 1;

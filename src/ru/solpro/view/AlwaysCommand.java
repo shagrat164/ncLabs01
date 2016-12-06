@@ -1,4 +1,6 @@
-package ru.solpro.controller;
+package ru.solpro.view;
+
+import ru.solpro.controller.SystemException;
 
 /**
  * Created by danila on 04.12.2016.

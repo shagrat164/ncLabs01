@@ -1,16 +1,6 @@
 package ru.solpro;
 
 import ru.solpro.controller.CommandController;
-import ru.solpro.controller.SystemException;
-import ru.solpro.model.ElectricTrain;
-import ru.solpro.model.Route;
-import ru.solpro.model.Station;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Информационная система "Расписание электричек"

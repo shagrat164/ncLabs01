@@ -1,4 +1,9 @@
-package ru.solpro.model;
+package ru.solpro.controller;
+
+import ru.solpro.model.Controller;
+import ru.solpro.model.ElectricTrain;
+import ru.solpro.model.Route;
+import ru.solpro.model.Schedule;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

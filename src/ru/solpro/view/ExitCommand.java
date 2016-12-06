@@ -1,12 +1,13 @@
-package ru.solpro.controller;
+package ru.solpro.view;
 
 /**
  * Created by Администратор on 30.11.2016.
  */
-public class SaveCommand implements Command {
+public class ExitCommand implements Command {
+
     @Override
     public boolean execute(String[] args) {
-        return true;
+        return false;
     }
 
     @Override
@@ -16,11 +17,11 @@ public class SaveCommand implements Command {
 
     @Override
     public String getName() {
-        return "SAVE";
+        return "EXIT";
     }
 
     @Override
     public String getDescription() {
-        return "Импорт данных";
+        return "Выход из программы";
     }
 }

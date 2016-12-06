@@ -29,7 +29,7 @@ public class Schedule implements Comparable<Schedule> {
         return numberTrain;
     }
 
-    LocalDateTime getDepartureDateTime() {
+    public LocalDateTime getDepartureDateTime() {
         return departureDateTime;
     }
 

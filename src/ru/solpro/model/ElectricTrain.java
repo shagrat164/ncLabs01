@@ -1,8 +1,6 @@
 package ru.solpro.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.TreeSet;
 
 /**
@@ -21,72 +19,21 @@ public class ElectricTrain implements Comparable<ElectricTrain> {
      * @param trainNumber Номер поезда
      * @param route Маршрут
      */
-    ElectricTrain(int trainNumber, Route route) {
+    public ElectricTrain(int trainNumber, Route route) {
         this.trainNumber = trainNumber;
         this.route = route;
         this.trainTimetable = new TreeSet<>();
     }
 
-//    /**
-//     * Конструктор для создания поезда без маршрута
-//     *
-//     * @param trainNumber Номер поезда
-//     */
-//    ElectricTrain(int trainNumber) {
-//        this.trainNumber = trainNumber;
-//        this.route = null;
-//        this.trainTimetable = new TreeSet<>();
-//    }
-
-//    ElectricTrain(int trainNumber, int routeId) {
-//        this.trainNumber = trainNumber;
-//
-//    }
-
-//    /**
-//     *
-//     * @param departureDateTime в формате yyyy-mm-dd hh:mm
-//     * @param hours Время движения в часах
-//     */
-//    @Deprecated
-//    void addTimetable(String departureDateTime, long hours) {
-//        String[] stringsDateTime = departureDateTime.split(" ");
-//        String[] stringsDate = stringsDateTime[0].split("-");
-//        String[] stringsTime = stringsDateTime[1].split(":");
-//
-//        LocalDate localDate = LocalDate.of(Integer.parseInt(stringsDate[0]), Integer.parseInt(stringsDate[1]), Integer.parseInt(stringsDate[2]));
-//        LocalTime localTime = LocalTime.of(Integer.parseInt(stringsTime[0]), Integer.parseInt(stringsTime[1]));
-//
-//        this.trainTimetable.add(new Schedule(this.trainNumber, LocalDateTime.of(localDate, localTime), hours));
-//    }
-//
-//    /**
-//     *
-//     * @param departureDateTime в формате yyyy-mm-dd hh:mm
-//     * @param hours Время движения в часах
-//     * @param min Время движения минут
-//     */
-//    @Deprecated
-//    void addTimetable(String departureDateTime, long hours, long min) {
-//        String[] stringsDateTime = departureDateTime.split(" ");
-//        String[] stringsDate = stringsDateTime[0].split("-");
-//        String[] stringsTime = stringsDateTime[1].split(":");
-//
-//        LocalDate localDate = LocalDate.of(Integer.parseInt(stringsDate[0]), Integer.parseInt(stringsDate[1]), Integer.parseInt(stringsDate[2]));
-//        LocalTime localTime = LocalTime.of(Integer.parseInt(stringsTime[0]), Integer.parseInt(stringsTime[1]));
-//
-//        this.trainTimetable.add(new Schedule(this.trainNumber, LocalDateTime.of(localDate, localTime), hours, min));
-//    }
-
-    TreeSet<Schedule> getTrainTimetable() {
+    public TreeSet<Schedule> getTrainTimetable() {
         return trainTimetable;
     }
 
-    void addScheduleLine(LocalDateTime departureDateTime, long hours, long min) {
+    public void addScheduleLine(LocalDateTime departureDateTime, long hours, long min) {
         this.trainTimetable.add(new Schedule(this.trainNumber, departureDateTime, hours, min));
     }
 
-    int getTrainNumber() {
+    public int getTrainNumber() {
         return trainNumber;
     }
 

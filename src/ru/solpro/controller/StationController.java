@@ -1,4 +1,7 @@
-package ru.solpro.model;
+package ru.solpro.controller;
+
+import ru.solpro.model.Controller;
+import ru.solpro.model.Station;
 
 import java.util.ArrayList;
 import java.util.TreeSet;

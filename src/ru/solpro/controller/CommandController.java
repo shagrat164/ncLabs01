@@ -1,5 +1,7 @@
 package ru.solpro.controller;
 
+import ru.solpro.view.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,8 +13,6 @@ import java.util.TreeMap;
  * @author Protsvetov Danila
  */
 public class CommandController {
-    private static final String MSG_COMMAND_NOT_FOUND = "Команда не найдена.";
-
     private static Map<String, Command> commands;
 
     static Map<String, Command> getCommands() {
@@ -38,10 +38,10 @@ public class CommandController {
         cmd = new DelCommand();
         commands.put(cmd.getName(), cmd);
 
+        cmd = new SearchCommand();
+        commands.put(cmd.getName(), cmd);
+
 //        cmd = new SaveCommand();
-//        commands.put(cmd.getName(), cmd);
-//
-//        cmd = new SearchCommand();
 //        commands.put(cmd.getName(), cmd);
     }
 
@@ -58,7 +58,7 @@ public class CommandController {
                 }
                 Command cmd = commands.get(parsedCommand.command.toUpperCase());
                 if (cmd == null) {
-                    System.out.println(MSG_COMMAND_NOT_FOUND);
+                    System.out.println("Команда не найдена.");
                     continue;
                 }
                 result = cmd.execute(parsedCommand.args);

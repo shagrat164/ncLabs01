@@ -1,4 +1,8 @@
-package ru.solpro.model;
+package ru.solpro.controller;
+
+import ru.solpro.model.Controller;
+import ru.solpro.model.Route;
+import ru.solpro.model.Station;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -50,7 +54,7 @@ public class RouteController implements Controller<Route> {
         Pattern p = Pattern.compile("^" + find.toUpperCase() + "$");
         Matcher m;
         for (Route route : routes) {
-            m = p.matcher(route.toString().toLowerCase());
+            m = p.matcher(route.toString().toUpperCase());
             if (m.matches()) {
                 result.add(route);
             }

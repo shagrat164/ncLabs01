@@ -10,13 +10,13 @@ public class Station implements Comparable<Station> {
     private int id;
     private String nameStation;
 
-    Station(int id, String name) {
+    public Station(int id, String name) {
         count += 1;
         this.id = id;
         this.nameStation = name;
     }
 
-    Station(String name) {
+    public Station(String name) {
         count += 1;
         this.id = count;
         this.nameStation = name;

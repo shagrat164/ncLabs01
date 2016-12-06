@@ -1,33 +1,32 @@
-package ru.solpro.controller;
+package ru.solpro.view;
 
 /**
- * Created by Администратор on 30.11.2016.
+ * Команда удаления данных
+ * @author Protsvetov Danila
  */
 public class DelCommand implements Command {
     @Override
     public boolean execute(String[] args) {
-        if (args == null) {
+        if (args == null || args.length < 1 || args.length > 1) {
+            System.out.println("Неверный аргумент у команды.");
             printHelp();
             return true;
         }
-        for (String arg : args) {
-            switch (arg.toUpperCase()) {
-                case "STATION":
-                    delStation();
-                    break;
-                case "ROUTE":
-                    delRoute();
-                    break;
-                case "TRAIN":
-                    delTrain();
-                    break;
-                case "SCHEDULE":
-                    delSchedule();
-                    break;
-                default:
-                    System.out.print("Неверный аргумент у команды. ");
-                    printHelp();
-            }
+        switch (args[0].toUpperCase()) {
+            case "STATION":
+                delStation();
+                break;
+            case "ROUTE":
+                delRoute();
+                break;
+            case "TRAIN":
+                delTrain();
+                break;
+            case "SCHEDULE":
+                delSchedule();
+                break;
+            default:
+                printHelp();
         }
         return true;
     }
@@ -56,27 +55,27 @@ public class DelCommand implements Command {
      * Удаление расписания у поезда
      */
     private void delSchedule() {
-
+        //TODO запилить метод
     }
 
     /**
      * Удаление поезда
      */
     private void delTrain() {
-
+        //TODO запилить метод
     }
 
     /**
      * Удаление маршрута
      */
     private void delRoute() {
-
+        //TODO запилить метод
     }
 
     /**
      * удаление станции
      */
     private void delStation() {
-
+        //TODO запилить метод
     }
 }
