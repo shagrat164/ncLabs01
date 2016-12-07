@@ -10,18 +10,14 @@ import java.util.TreeSet;
  */
 public class ElectricTrain implements Comparable<ElectricTrain> {
     private int trainNumber;                    //номер поезда
-    private Route route;                        //маршрут
     private TreeSet<Schedule> trainTimetable;   //расписание
 
     /**
      * Конструктор для создания поезда
-     *
      * @param trainNumber Номер поезда
-     * @param route Маршрут
      */
-    public ElectricTrain(int trainNumber, Route route) {
+    public ElectricTrain(int trainNumber) {
         this.trainNumber = trainNumber;
-        this.route = route;
         this.trainTimetable = new TreeSet<>();
     }
 
@@ -29,24 +25,16 @@ public class ElectricTrain implements Comparable<ElectricTrain> {
         return trainTimetable;
     }
 
-    public void addScheduleLine(LocalDateTime departureDateTime, long hours, long min) {
-        this.trainTimetable.add(new Schedule(this.trainNumber, departureDateTime, hours, min));
+    public void addScheduleLine(Route route, LocalDateTime departureDateTime, long hours, long min) {
+        this.trainTimetable.add(new Schedule(route, departureDateTime, hours, min));
     }
 
     public int getTrainNumber() {
         return trainNumber;
     }
 
-    void setTrainNumber(int trainNumber) {
+    public void setTrainNumber(int trainNumber) {
         this.trainNumber = trainNumber;
-    }
-
-    Route getRoute() {
-        return route;
-    }
-
-    void setRoute(Route route) {
-        this.route = route;
     }
 
     @Override
@@ -62,9 +50,13 @@ public class ElectricTrain implements Comparable<ElectricTrain> {
 
     @Override
     public String toString() {
+        if (trainTimetable.isEmpty()) {
+            return "номер поезда=[" + trainNumber +
+                    "] маршрут не определён";
+        }
         return "номер поезда=[" + trainNumber +
-                "] маршрут=[" + route.getId() +
-                "] " + route;
+                "] маршрут=[" + trainTimetable.first().getRoute().getId() +
+                "] " + trainTimetable.first().getRoute();
     }
 
     @Override
@@ -75,13 +67,13 @@ public class ElectricTrain implements Comparable<ElectricTrain> {
         ElectricTrain that = (ElectricTrain) o;
 
         if (trainNumber != that.trainNumber) return false;
-        return route != null ? route.equals(that.route) : that.route == null;
+        return trainTimetable != null ? trainTimetable.equals(that.trainTimetable) : that.trainTimetable == null;
     }
 
     @Override
     public int hashCode() {
         int result = trainNumber;
-        result = 31 * result + (route != null ? route.hashCode() : 0);
+        result = 31 * result + (trainTimetable != null ? trainTimetable.hashCode() : 0);
         return result;
     }
 }

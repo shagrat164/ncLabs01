@@ -11,18 +11,18 @@ public class Route implements Comparable<Route> {
     private Station departure;   //отправление
     private Station arrival;     //прибытие
 
-    /**
-     *
-     * @param id           идентификатор маршрута
-     * @param departure    станция отправления
-     * @param arrival      станция прибытия
-     */
-    Route(int id, Station departure, Station arrival) {
-        count += 1;
-        this.id = id;
-        this.departure = departure;
-        this.arrival = arrival;
-    }
+//    /**
+//     *
+//     * @param id           идентификатор маршрута
+//     * @param departure    станция отправления
+//     * @param arrival      станция прибытия
+//     */
+//    Route(int id, Station departure, Station arrival) {
+//        count += 1;
+//        this.id = id;
+//        this.departure = departure;
+//        this.arrival = arrival;
+//    }
 
     /**
      *
@@ -44,7 +44,7 @@ public class Route implements Comparable<Route> {
      *
      * @return станция отправления
      */
-    Station getDeparture() {
+    public Station getDeparture() {
         return departure;
     }
 
@@ -52,8 +52,24 @@ public class Route implements Comparable<Route> {
      *
      * @return станция прибытия
      */
-    Station getArrival() {
+    public Station getArrival() {
         return arrival;
+    }
+
+    /**
+     *
+     * @param departure
+     */
+    public void setDeparture(Station departure) {
+        this.departure = departure;
+    }
+
+    /**
+     *
+     * @param arrival
+     */
+    public void setArrival(Station arrival) {
+        this.arrival = arrival;
     }
 
     @Override

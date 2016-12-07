@@ -3,6 +3,7 @@ package ru.solpro.view;
 import ru.solpro.controller.*;
 import ru.solpro.controller.ElectricTrainModelController;
 import ru.solpro.controller.StationModelController;
+import ru.solpro.model.ElectricTrain;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -146,15 +147,15 @@ public class AddCommand extends AlwaysCommand implements Command {
             }
             Integer numberTrain = Integer.parseInt(strNumberTrain);
 
-            System.out.print("\tid маршрута: ");
-            String strIdRoute = reader.readLine();
-            if (isExitOperation(strIdRoute)) {
-                return;
-            }
-            Integer idRoute = Integer.parseInt(strIdRoute);
+//            System.out.print("\tid маршрута: ");
+//            String strIdRoute = reader.readLine();
+//            if (isExitOperation(strIdRoute)) {
+//                return;
+//            }
+//            Integer idRoute = Integer.parseInt(strIdRoute);
 
-            if (electricTrainController.search(numberTrain) == null && electricTrainController.add(numberTrain, idRoute)) {
-                System.out.println("Маршрут успешно добавлен.");
+            if (electricTrainController.search(numberTrain) == null && electricTrainController.add(numberTrain)) {
+                System.out.println("Поезд успешно добавлен.");
                 if (!isAddMore()) {
                     return;
                 }
@@ -182,8 +183,17 @@ public class AddCommand extends AlwaysCommand implements Command {
                 return;
             }
             Integer numberTrain = Integer.parseInt(strNumberTrain);
-            if (electricTrainController.search(numberTrain) == null) {
-                error("Невозможно добавить расписание.\nПоезда с номером " + numberTrain + " не существует.");
+            ElectricTrain electricTrain = electricTrainController.search(numberTrain);
+            if (electricTrain == null) {
+                error("Невозможно добавить расписание. Поезда с номером " + numberTrain + " не существует.");
+            }
+
+            int routeId = 0;
+            if (electricTrain.getTrainTimetable().isEmpty()) {
+                System.out.print("У данного поезда отсутствует маршрут. Введите id маршрута: ");
+                routeId = Integer.parseInt(reader.readLine());
+            } else {
+                routeId = electricTrain.getTrainTimetable().first().getRoute().getId();
             }
 
             System.out.print("\tДата отправления (dd.mm.yyyy): ");
@@ -218,10 +228,10 @@ public class AddCommand extends AlwaysCommand implements Command {
             Integer timeArrMinutes = Integer.parseInt(strTimeArrMinutes);
 
             if (timeArrMinutes == 0) {
-                electricTrainController.addScheduleLine(numberTrain, depDateTime, timeArrHours);
+                electricTrainController.addScheduleLine(routeId, numberTrain, depDateTime, timeArrHours);
                 System.out.println("Расписание успешно добавлено.");
             } else {
-                electricTrainController.addScheduleLine(numberTrain, depDateTime, timeArrHours, timeArrMinutes);
+                electricTrainController.addScheduleLine(routeId, numberTrain, depDateTime, timeArrHours, timeArrMinutes);
                 System.out.println("Расписание успешно добавлено.");
             }
 

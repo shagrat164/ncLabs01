@@ -9,35 +9,44 @@ import java.time.format.DateTimeFormatter;
  * @author Protsvetov Danila
  */
 public class Schedule implements Comparable<Schedule> {
-    private int numberTrain;
+//    private int numberTrain;
+    private Route route;
     private LocalDateTime departureDateTime;    //дата/время отправления
     private long hour;                          //время в пути
     private long min;                           //время в пути
 
-    Schedule(int numberTrain, LocalDateTime departureDateTime, long hour) {
-        this(numberTrain, departureDateTime, hour, 0);
-    }
+//    Schedule(Route route, LocalDateTime departureDateTime, long hour) {
+//        this(route, departureDateTime, hour, 0);
+//    }
 
-    Schedule(int numberTrain, LocalDateTime departureDateTime, long hour, long min) {
-        this.numberTrain = numberTrain;
+    Schedule(Route route, LocalDateTime departureDateTime, long hour, long min) {
+        this.route = route;
         this.departureDateTime = departureDateTime;
         this.hour = hour;
         this.min = min;
     }
 
-    public int getNumberTrain() {
-        return numberTrain;
+//    public int getNumberTrain() {
+//        return numberTrain;
+//    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
     }
 
     public LocalDateTime getDepartureDateTime() {
         return departureDateTime;
     }
 
-    LocalDateTime getArrivalDateTime() {
+    private LocalDateTime getArrivalDateTime() {
         return departureDateTime.plusHours(hour).plusMinutes(min);
     }
 
-    String getTravelTime() {
+    private String getTravelTime() {
         return hour + ":" + min;
     }
 

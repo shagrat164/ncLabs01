@@ -65,7 +65,7 @@ public class CommandController {
             } catch (IOException e) {
                 /*NOP*/
             } catch (SystemException e) {
-                System.err.println(e);
+                System.out.println("Error: " + e);
             }
         } while (result);
     }

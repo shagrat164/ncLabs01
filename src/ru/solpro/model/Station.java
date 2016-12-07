@@ -22,6 +22,10 @@ public class Station implements Comparable<Station> {
         this.nameStation = name;
     }
 
+    public void setNameStation(String nameStation) {
+        this.nameStation = nameStation;
+    }
+
     public int getId() {
         return id;
     }
