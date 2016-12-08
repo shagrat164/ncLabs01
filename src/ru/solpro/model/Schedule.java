@@ -19,6 +19,10 @@ public class Schedule implements Comparable<Schedule> {
 //        this(route, departureDateTime, hour, 0);
 //    }
 
+//    Schedule(Route route) {
+//        this.route = route;
+//    }
+
     Schedule(Route route, LocalDateTime departureDateTime, long hour, long min) {
         this.route = route;
         this.departureDateTime = departureDateTime;

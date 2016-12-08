@@ -35,7 +35,6 @@ import ru.solpro.controller.ElectricTrainModelController;
 
 public class MainApp {
     public static void main(String[] args) {
-        ElectricTrainModelController electricTrainModelController = ElectricTrainModelController.getInstance();
         CommandController commandController = new CommandController();
         commandController.execute();
     }

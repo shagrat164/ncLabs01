@@ -147,13 +147,6 @@ public class AddCommand extends AlwaysCommand implements Command {
             }
             Integer numberTrain = Integer.parseInt(strNumberTrain);
 
-//            System.out.print("\tid маршрута: ");
-//            String strIdRoute = reader.readLine();
-//            if (isExitOperation(strIdRoute)) {
-//                return;
-//            }
-//            Integer idRoute = Integer.parseInt(strIdRoute);
-
             if (electricTrainController.search(numberTrain) == null && electricTrainController.add(numberTrain)) {
                 System.out.println("Поезд успешно добавлен.");
                 if (!isAddMore()) {
@@ -172,6 +165,7 @@ public class AddCommand extends AlwaysCommand implements Command {
      */
     private void addSchedule() throws SystemException, IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        RouteModelController routeModelController = RouteModelController.getInstance();
         ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
 
         System.out.println("Для завершения операции добавления введите exit.");
@@ -190,8 +184,12 @@ public class AddCommand extends AlwaysCommand implements Command {
 
             int routeId = 0;
             if (electricTrain.getTrainTimetable().isEmpty()) {
-                System.out.print("У данного поезда отсутствует маршрут. Введите id маршрута: ");
+                System.out.print("\tУ данного поезда отсутствует маршрут. Введите id маршрута: ");
                 routeId = Integer.parseInt(reader.readLine());
+                if (routeModelController.search(routeId) == null) {
+                    error("Маршрута не существует. Сначала создайте маршрут.");
+                    return;
+                }
             } else {
                 routeId = electricTrain.getTrainTimetable().first().getRoute().getId();
             }

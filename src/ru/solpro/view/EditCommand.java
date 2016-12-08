@@ -12,6 +12,10 @@ import ru.solpro.model.Station;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by danila on 06.12.2016.
@@ -93,12 +97,56 @@ public class EditCommand extends AlwaysCommand implements Command {
             if (route == null) {
                 error("Маршрут не найден.");
             }
+            editElectricTrain.clearTrainTimetable();
+            editTrainRoute(editElectricTrain, route);
         }
 
         for (Schedule schedule : editElectricTrain.getTrainTimetable()) {
             schedule.setRoute(routeModelController.search(newRouteId));
         }
         editElectricTrain.setTrainNumber(newNumberTrain);
+    }
+
+    /**
+     * Меняет маршрут и добавляет первую дату в расписание.
+     * @throws IOException
+     * @throws SystemException
+     */
+    private void editTrainRoute(ElectricTrain electricTrain, Route routeId) throws IOException, SystemException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
+
+        System.out.println("\tПосле изменения маршрута необходимо добавить запись в расписание.");
+        System.out.print("\tДата отправления (dd.mm.yyyy): ");
+        String strDateDep = reader.readLine();
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate dateDep = LocalDate.parse(strDateDep, dateFormatter);
+
+        System.out.print("\tВремя отправления (hh:mm): ");
+        String strTimeDep = reader.readLine();
+
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime timeDep = LocalTime.parse(strTimeDep, timeFormatter);
+        LocalDateTime depDateTime = LocalDateTime.of(dateDep, timeDep);
+
+        System.out.print("\tВремя движения до конечного пункта (часов): ");
+        String strTimeArrHours = reader.readLine();
+        Integer timeArrHours = Integer.parseInt(strTimeArrHours);
+
+        System.out.print("\tВремя движения до конечного пункта (минут): ");
+        String strTimeArrMinutes = reader.readLine();
+        if (strTimeArrMinutes.equals("")) {
+            strTimeArrMinutes = "0";
+        }
+        Integer timeArrMinutes = Integer.parseInt(strTimeArrMinutes);
+
+        if (timeArrMinutes == 0) {
+            electricTrainController.addScheduleLine(routeId.getId(), electricTrain.getTrainNumber(), depDateTime, timeArrHours);
+        } else {
+            electricTrainController.addScheduleLine(routeId.getId(), electricTrain.getTrainNumber(), depDateTime, timeArrHours, timeArrMinutes);
+        }
+        System.out.println("Расписание успешно добавлено.");
     }
 
     private void editRoute() throws IOException, SystemException {

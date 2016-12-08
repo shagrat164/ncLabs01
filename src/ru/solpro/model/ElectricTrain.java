@@ -21,6 +21,15 @@ public class ElectricTrain implements Comparable<ElectricTrain> {
         this.trainTimetable = new TreeSet<>();
     }
 
+    /**
+     * Очистить расписание
+     */
+    public void clearTrainTimetable() {
+        if (!trainTimetable.isEmpty()) {
+            trainTimetable.clear();
+        }
+    }
+
     public TreeSet<Schedule> getTrainTimetable() {
         return trainTimetable;
     }

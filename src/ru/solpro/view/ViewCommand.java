@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class ViewCommand implements Command {
+public class ViewCommand extends AlwaysCommand implements Command {
     @Override
     public boolean execute(String[] args) throws SystemException, IOException{
         if (args == null) {
@@ -70,10 +70,10 @@ public class ViewCommand implements Command {
     /**
      * Вывод списка станций в системе
      */
-    private void viewStations() {
+    private void viewStations() throws SystemException {
         StationModelController stationController = StationModelController.getInstance();
         if (stationController.get().isEmpty()) {
-            System.out.println("Не определено ни одной станции.");
+            error("Не определено ни одной станции.");
             return;
         }
         for (Station station : stationController.get()) {
@@ -84,10 +84,10 @@ public class ViewCommand implements Command {
     /**
      * Вывод списка маршрутов в системе
      */
-    private void viewRoutes() {
+    private void viewRoutes() throws SystemException {
         RouteModelController routeController = RouteModelController.getInstance();
         if (routeController.get().isEmpty()) {
-            System.out.println("Не определено ни одного маршрута.");
+            error("Не определено ни одного маршрута.");
             return;
         }
         for (Route route : routeController.get()) {
@@ -98,10 +98,10 @@ public class ViewCommand implements Command {
     /**
      * Вывод списка поездов в системе
      */
-    private void viewTrains() {
+    private void viewTrains() throws SystemException {
         ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
         if (electricTrainController.get().isEmpty()) {
-            System.out.println("Не определено ни одного поезда.");
+            error("Не определено ни одного поезда.");
             return;
         }
         for (ElectricTrain electricTrain : electricTrainController.get()) {
@@ -112,10 +112,10 @@ public class ViewCommand implements Command {
     /**
      * Расписание поездов за ближайшие 24 часа
      */
-    private void viewSchedule() {
+    private void viewSchedule() throws SystemException {
         ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
         if (electricTrainController.get().isEmpty()) {
-            System.out.println("Не определено ни одного поезда.");
+            error("Не определено ни одного поезда.");
             return;
         }
         LinkedHashMap<ElectricTrain, ArrayList<Schedule>> result = electricTrainController.viewSchedule();
@@ -132,10 +132,18 @@ public class ViewCommand implements Command {
      * Вывод расписания у определённого поезда
      * @param numberTrain   номер поезда
      */
-    private void viewSchedule(int numberTrain) {
+    private void viewSchedule(int numberTrain) throws SystemException {
         ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
         if (electricTrainController.get().isEmpty()) {
-            System.out.println("Не определено ни одного поезда.");
+            error("Не определено ни одного поезда.");
+            return;
+        }
+        if (electricTrainController.viewSchedule(numberTrain) == null) {
+            error("Поезда с данным номером не существует.");
+            return;
+        }
+        if (electricTrainController.viewSchedule(numberTrain).isEmpty()) {
+            error("У поезда нет расписания.");
             return;
         }
         for (Schedule schedule : electricTrainController.viewSchedule(numberTrain)) {

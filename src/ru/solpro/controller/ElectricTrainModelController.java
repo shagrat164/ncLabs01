@@ -86,11 +86,7 @@ public class ElectricTrainModelController implements ModelController<ElectricTra
     }
 
     public boolean add(int trainNumber) {
-//        Route route = RouteModelController.getInstance().search(routeId);
-//        if (route != null) {
         return electricTrains.add(new ElectricTrain(trainNumber));
-//        }
-//        return false;
     }
 
     @Override
