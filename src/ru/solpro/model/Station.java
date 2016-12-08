@@ -1,6 +1,9 @@
 package ru.solpro.model;
 
-import javax.xml.bind.annotation.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  * Класс-модель для станции
@@ -8,15 +11,18 @@ import javax.xml.bind.annotation.*;
  * @author Protsvetov Danila
  */
 
-@XmlAccessorType(XmlAccessType.FIELD)
-//корневой элемент
-@XmlRootElement(name = "model")
-//последовательность тегов в xml
-@XmlType(propOrder = {"nameStation"})
-public class Station implements Comparable<Station> {
+public class Station implements Comparable<Station>, Serializable {
     private static int count;
     private int id;
     private String nameStation;
+
+    public static void serializeStatic(ObjectOutputStream objectOutputStream) throws IOException {
+        objectOutputStream.writeInt(count);
+    }
+
+    public static void deserializeStatic(ObjectInputStream objectInputStream) throws IOException {
+        count = objectInputStream.readInt();
+    }
 
     public Station(int id, String name) {
         count += 1;
@@ -30,7 +36,6 @@ public class Station implements Comparable<Station> {
         this.nameStation = name;
     }
 
-    @XmlElement(name = "name")
     public String getNameStation() {
         return nameStation;
     }
@@ -39,8 +44,6 @@ public class Station implements Comparable<Station> {
         this.nameStation = nameStation;
     }
 
-    //id как атрибут
-    @XmlAttribute
     public int getId() {
         return id;
     }

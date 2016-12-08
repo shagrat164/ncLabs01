@@ -68,7 +68,8 @@ public class DelCommand extends AlwaysCommand implements Command {
      * Удаление расписания у поезда
      */
     private void delSchedule() {
-        //TODO запилить метод
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        //TODO допилить
     }
 
     /**

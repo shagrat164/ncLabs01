@@ -3,6 +3,7 @@ package ru.solpro.controller;
 import ru.solpro.model.Route;
 import ru.solpro.model.Station;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -11,20 +12,25 @@ import java.util.regex.Pattern;
 /**
  * @author Protsvetov Danila
  */
-public class RouteModelController implements ModelController<Route> {
+public class RouteModelController implements ModelController<Route>, Serializable {
+//    private static final long serialVersionUID = 1L;
     private static RouteModelController instance;
     private TreeSet<Route> routes;
 
     private RouteModelController() {
         routes = new TreeSet<>();
         // заполнение данными для первоначального тестирования
-        add(1, 2);
-        add(1, 3);
-        add(1, 4);
-        add(1, 5);
-        add(1, 6);
-        add(1, 7);
-        add(1, 8);
+//        add(1, 2);
+//        add(1, 3);
+//        add(1, 4);
+//        add(1, 5);
+//        add(1, 6);
+//        add(1, 7);
+//        add(1, 8);
+    }
+
+    public static void setInstance(RouteModelController instance) {
+        RouteModelController.instance = instance;
     }
 
     public static RouteModelController getInstance() {

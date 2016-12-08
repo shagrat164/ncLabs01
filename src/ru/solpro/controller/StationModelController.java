@@ -2,26 +2,28 @@ package ru.solpro.controller;
 
 import ru.solpro.model.Station;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StationModelController implements ModelController<Station> {
+public class StationModelController implements ModelController<Station>, Serializable {
+//    private static final long serialVersionUID = 1L;
     private static StationModelController instance;
     private TreeSet<Station> stations;
 
     private StationModelController() {
         stations = new TreeSet<>();
-        // заполнение данными для первоначального тестирования
-        add("САРАТОВ-1");
-        add("ТАТИЩЕВО");
-        add("АТКАРСК");
-        add("БАЛАКОВО");
-        add("БАЛАШОВ");
-        add("СЕННАЯ");
-        add("ТАРАНЫ");
-        add("ВОЛЬСК");
+        //заполнение данными для первоначального тестирования
+//        add("САРАТОВ-1");
+//        add("ТАТИЩЕВО");
+//        add("АТКАРСК");
+//        add("БАЛАКОВО");
+//        add("БАЛАШОВ");
+//        add("СЕННАЯ");
+//        add("ТАРАНЫ");
+//        add("ВОЛЬСК");
     }
 
     public static StationModelController getInstance() {
@@ -29,6 +31,10 @@ public class StationModelController implements ModelController<Station> {
             instance = new StationModelController();
         }
         return instance;
+    }
+
+    public static void setInstance(StationModelController stationModelController) {
+        instance = stationModelController;
     }
 
     /**
@@ -95,9 +101,9 @@ public class StationModelController implements ModelController<Station> {
         return stations.remove(station);
     }
 
-    public boolean add(int id, String name) {
-        return stations.add(new Station(id, name));
-    }
+//    public boolean add(int id, String name) {
+//        return stations.add(new Station(id, name));
+//    }
 
     @Override
     public boolean add(Station station) {

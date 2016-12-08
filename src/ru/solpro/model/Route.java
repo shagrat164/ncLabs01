@@ -1,15 +1,28 @@
 package ru.solpro.model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  * Класс-модель для маршрута (Начальная станция, конечная станция)
  *
  * @author Protsvetov Danila
  */
-public class Route implements Comparable<Route> {
+public class Route implements Comparable<Route>, Serializable {
     private static int count;
     private int id;
     private Station departure;   //отправление
     private Station arrival;     //прибытие
+
+    public static void serializeStatic(ObjectOutputStream objectOutputStream) throws IOException {
+        objectOutputStream.writeInt(count);
+    }
+
+    public static void deserializeStatic(ObjectInputStream objectInputStream) throws IOException {
+        count = objectInputStream.readInt();
+    }
 
 //    /**
 //     *

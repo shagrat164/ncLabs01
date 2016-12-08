@@ -2,6 +2,10 @@ package ru.solpro;
 
 import ru.solpro.controller.CommandController;
 import ru.solpro.controller.ElectricTrainModelController;
+import ru.solpro.controller.parser.DataParser;
+import ru.solpro.controller.parser.SerializationData;
+
+import java.io.IOException;
 
 /**
  * Информационная система "Расписание электричек"
@@ -34,7 +38,17 @@ import ru.solpro.controller.ElectricTrainModelController;
  */
 
 public class MainApp {
+    private static void init() {
+        DataParser serializationData = new SerializationData();
+        try {
+            serializationData.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
+        init();
         CommandController commandController = new CommandController();
         commandController.execute();
     }

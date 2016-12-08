@@ -63,7 +63,7 @@ public class CommandController {
                 }
                 result = cmd.execute(parsedCommand.args);
             } catch (IOException e) {
-                /*NOP*/
+                System.out.println("Error: " + e);
             } catch (SystemException e) {
                 System.out.println("Error: " + e);
             }

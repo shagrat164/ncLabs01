@@ -4,58 +4,60 @@ import ru.solpro.model.ElectricTrain;
 import ru.solpro.model.Route;
 import ru.solpro.model.Schedule;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.TreeSet;
 
-public class ElectricTrainModelController implements ModelController<ElectricTrain> {
+public class ElectricTrainModelController implements ModelController<ElectricTrain>, Serializable {
+//    private static final long serialVersionUID = 1L;
     private static ElectricTrainModelController instance;
     private TreeSet<ElectricTrain> electricTrains;
 
     private ElectricTrainModelController() {
         electricTrains = new TreeSet<>();
         // заполнение данными для первоначального тестирования
-        add(1000);
-        add(1001);
-        add(1002);
-        add(1003);
-        add(1004);
-        add(1005);
-        add(1006);
-        add(1206);
-
-        addScheduleLine(1, 1000, LocalDateTime.now(), 1);
-        addScheduleLine(1, 1000, LocalDateTime.now().plusDays(1), 10);
-        addScheduleLine(1, 1000, LocalDateTime.now().plusDays(2), 10);
-        addScheduleLine(1, 1000, LocalDateTime.now().plusDays(3), 10);
-        addScheduleLine(1, 1000, LocalDateTime.now().plusDays(4), 10);
-
-        addScheduleLine(2, 1001, LocalDateTime.now(), 4);
-        addScheduleLine(2, 1001, LocalDateTime.now().plusDays(1), 4);
-        addScheduleLine(2, 1001, LocalDateTime.now().plusDays(2), 4);
-        addScheduleLine(2, 1001, LocalDateTime.now().plusDays(3), 4);
-        addScheduleLine(2, 1001, LocalDateTime.now().plusDays(4), 4);
-
-        addScheduleLine(3, 1002, LocalDateTime.now(), 4);
-        addScheduleLine(3, 1002, LocalDateTime.now().plusDays(1), 4);
-        addScheduleLine(3, 1002, LocalDateTime.now().plusDays(2), 4);
-        addScheduleLine(3, 1002, LocalDateTime.now().plusDays(3), 4);
-        addScheduleLine(3, 1002, LocalDateTime.now().plusDays(4), 4);
-
-        addScheduleLine(4, 1003, LocalDateTime.now(), 4);
-        addScheduleLine(4, 1003, LocalDateTime.now().plusDays(1), 4);
-        addScheduleLine(4, 1003, LocalDateTime.now().plusDays(2), 4);
-        addScheduleLine(4, 1003, LocalDateTime.now().plusDays(3), 4);
-        addScheduleLine(4, 1003, LocalDateTime.now().plusDays(4), 4);
-
-        addScheduleLine(5, 1004, LocalDateTime.now(), 4);
-        addScheduleLine(5, 1004, LocalDateTime.now().plusDays(1), 4, 15);
-
-        addScheduleLine(6, 1005, LocalDateTime.now().plusDays(2), 4, 20);
-        addScheduleLine(6, 1005, LocalDateTime.now().plusDays(3), 4);
-
-        addScheduleLine(6, 1206, LocalDateTime.now().plusDays(4), 10, 30);
+//        add(1000);
+//        add(1001);
+//        add(1002);
+//        add(1003);
+//        add(1004);
+//        add(1005);
+//        add(1006);
+//        add(1206);
+//
+//        addScheduleLine(1, 1000, LocalDateTime.now(), 1);
+//        addScheduleLine(1, 1000, LocalDateTime.now().plusDays(1), 10);
+//        addScheduleLine(1, 1000, LocalDateTime.now().plusDays(2), 10);
+//        addScheduleLine(1, 1000, LocalDateTime.now().plusDays(3), 10);
+//        addScheduleLine(1, 1000, LocalDateTime.now().plusDays(4), 10);
+//
+//        addScheduleLine(2, 1001, LocalDateTime.now(), 4);
+//        addScheduleLine(2, 1001, LocalDateTime.now().plusDays(1), 4);
+//        addScheduleLine(2, 1001, LocalDateTime.now().plusDays(2), 4);
+//        addScheduleLine(2, 1001, LocalDateTime.now().plusDays(3), 4);
+//        addScheduleLine(2, 1001, LocalDateTime.now().plusDays(4), 4);
+//
+//        addScheduleLine(3, 1002, LocalDateTime.now(), 4);
+//        addScheduleLine(3, 1002, LocalDateTime.now().plusDays(1), 4);
+//        addScheduleLine(3, 1002, LocalDateTime.now().plusDays(2), 4);
+//        addScheduleLine(3, 1002, LocalDateTime.now().plusDays(3), 4);
+//        addScheduleLine(3, 1002, LocalDateTime.now().plusDays(4), 4);
+//
+//        addScheduleLine(4, 1003, LocalDateTime.now(), 4);
+//        addScheduleLine(4, 1003, LocalDateTime.now().plusDays(1), 4);
+//        addScheduleLine(4, 1003, LocalDateTime.now().plusDays(2), 4);
+//        addScheduleLine(4, 1003, LocalDateTime.now().plusDays(3), 4);
+//        addScheduleLine(4, 1003, LocalDateTime.now().plusDays(4), 4);
+//
+//        addScheduleLine(5, 1004, LocalDateTime.now(), 4);
+//        addScheduleLine(5, 1004, LocalDateTime.now().plusDays(1), 4, 15);
+//
+//        addScheduleLine(6, 1005, LocalDateTime.now().plusDays(2), 4, 20);
+//        addScheduleLine(6, 1005, LocalDateTime.now().plusDays(3), 4);
+//
+//        addScheduleLine(6, 1206, LocalDateTime.now().plusDays(4), 10, 30);
     }
 
     public static ElectricTrainModelController getInstance() {
@@ -63,6 +65,10 @@ public class ElectricTrainModelController implements ModelController<ElectricTra
             instance = new ElectricTrainModelController();
         }
         return instance;
+    }
+
+    public static void setInstance(ElectricTrainModelController instance) {
+        ElectricTrainModelController.instance = instance;
     }
 
     @Override
@@ -128,19 +134,26 @@ public class ElectricTrainModelController implements ModelController<ElectricTra
 
     /**
      * Метод добавления строки расписания для поезда
-     * @param numberTrains         номер поезда
+     * @param numberTrain         номер поезда
      * @param departureDateTime    дата и время итправления
      * @param hours                время движения до пункта назначения (часов)
      * @param min                  время движения до пункта назначения (минут)
      */
-    public boolean addScheduleLine(int routeId, int numberTrains, LocalDateTime departureDateTime, long hours, long min) {
+    public boolean addScheduleLine(int routeId, int numberTrain, LocalDateTime departureDateTime, long hours, long min) {
         Route route = RouteModelController.getInstance().search(routeId);
-        ElectricTrain electricTrain = search(numberTrains);
+        ElectricTrain electricTrain = search(numberTrain);
         if (electricTrain != null && route != null) {
             electricTrain.addScheduleLine(route, departureDateTime, hours, min);
             return true;
         }
         return false;
+    }
+
+    public void delScheduleLine(int scheduleId, int numberTrain) {
+        ElectricTrain electricTrain = search(numberTrain);
+        if (electricTrain != null) {
+            //TODO допилить
+        }
     }
 
     /**

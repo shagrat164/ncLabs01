@@ -1,5 +1,6 @@
 package ru.solpro.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.TreeSet;
 
@@ -8,7 +9,7 @@ import java.util.TreeSet;
  *
  * @author Protsvetov Danila
  */
-public class ElectricTrain implements Comparable<ElectricTrain> {
+public class ElectricTrain implements Comparable<ElectricTrain>, Serializable {
     private int trainNumber;                    //номер поезда
     private TreeSet<Schedule> trainTimetable;   //расписание
 
