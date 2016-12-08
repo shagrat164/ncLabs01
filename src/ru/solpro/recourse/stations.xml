@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model>
+    <station id="1">
+        <name>САРАТОВ-1</name>
+    </station>
+    <station id="2">
+        <name>САРАТОВ-1</name>
+    </station>
+    <station id="3">
+        <name>САРАТОВ-1</name>
+    </station>
+    <station id="4">
+        <name>САРАТОВ-1</name>
+    </station>
+    <station id="5">
+        <name>САРАТОВ-1</name>
+    </station>
+    <station id="6">
+        <name>САРАТОВ-1</name>
+    </station>
+    <station id="7">
+        <name>САРАТОВ-1</name>
+    </station>
+</model>

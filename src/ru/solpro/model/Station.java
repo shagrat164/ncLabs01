@@ -1,10 +1,18 @@
 package ru.solpro.model;
 
+import javax.xml.bind.annotation.*;
+
 /**
  * Класс-модель для станции
  *
  * @author Protsvetov Danila
  */
+
+@XmlAccessorType(XmlAccessType.FIELD)
+//корневой элемент
+@XmlRootElement(name = "model")
+//последовательность тегов в xml
+@XmlType(propOrder = {"nameStation"})
 public class Station implements Comparable<Station> {
     private static int count;
     private int id;
@@ -22,10 +30,17 @@ public class Station implements Comparable<Station> {
         this.nameStation = name;
     }
 
+    @XmlElement(name = "name")
+    public String getNameStation() {
+        return nameStation;
+    }
+
     public void setNameStation(String nameStation) {
         this.nameStation = nameStation;
     }
 
+    //id как атрибут
+    @XmlAttribute
     public int getId() {
         return id;
     }
