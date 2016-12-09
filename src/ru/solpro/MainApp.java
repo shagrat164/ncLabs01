@@ -1,7 +1,6 @@
 package ru.solpro;
 
 import ru.solpro.controller.CommandController;
-import ru.solpro.controller.ElectricTrainModelController;
 import ru.solpro.controller.parser.DataParser;
 import ru.solpro.controller.parser.SerializationData;
 
@@ -39,16 +38,16 @@ import java.io.IOException;
 
 public class MainApp {
     private static void init() {
-        DataParser serializationData = new SerializationData();
+        DataParser dataParser = new SerializationData();
         try {
-            serializationData.load();
+            dataParser.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error: " + e);
         }
     }
 
     public static void main(String[] args) {
-        init();
+//        init();
         CommandController commandController = new CommandController();
         commandController.execute();
     }

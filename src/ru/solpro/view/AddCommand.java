@@ -1,9 +1,9 @@
 package ru.solpro.view;
 
 import ru.solpro.controller.*;
-import ru.solpro.controller.ElectricTrainModelController;
+import ru.solpro.controller.TrainModelController;
 import ru.solpro.controller.StationModelController;
-import ru.solpro.model.ElectricTrain;
+import ru.solpro.model.Train;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -135,7 +135,7 @@ public class AddCommand extends AlwaysCommand implements Command {
      */
     private void addTrain() throws SystemException, IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
+        TrainModelController trainModelController = TrainModelController.getInstance();
 
         System.out.println("Для завершения операции добавления введите exit.");
 
@@ -147,7 +147,7 @@ public class AddCommand extends AlwaysCommand implements Command {
             }
             Integer numberTrain = Integer.parseInt(strNumberTrain);
 
-            if (electricTrainController.search(numberTrain) == null && electricTrainController.add(numberTrain)) {
+            if (trainModelController.search(numberTrain) == null && trainModelController.add(numberTrain)) {
                 System.out.println("Поезд успешно добавлен.");
                 if (!isAddMore()) {
                     return;
@@ -166,7 +166,7 @@ public class AddCommand extends AlwaysCommand implements Command {
     private void addSchedule() throws SystemException, IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         RouteModelController routeModelController = RouteModelController.getInstance();
-        ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
+        TrainModelController trainModelController = TrainModelController.getInstance();
 
         System.out.println("Для завершения операции добавления введите exit.");
 
@@ -177,13 +177,13 @@ public class AddCommand extends AlwaysCommand implements Command {
                 return;
             }
             Integer numberTrain = Integer.parseInt(strNumberTrain);
-            ElectricTrain electricTrain = electricTrainController.search(numberTrain);
-            if (electricTrain == null) {
+            Train train = trainModelController.search(numberTrain);
+            if (train == null) {
                 error("Невозможно добавить расписание. Поезда с номером " + numberTrain + " не существует.");
             }
 
             int routeId = 0;
-            if (electricTrain.getTrainTimetable().isEmpty()) {
+            if (train.getTrainTimetable().isEmpty()) {
                 System.out.print("\tУ данного поезда отсутствует маршрут. Введите id маршрута: ");
                 routeId = Integer.parseInt(reader.readLine());
                 if (routeModelController.search(routeId) == null) {
@@ -191,7 +191,7 @@ public class AddCommand extends AlwaysCommand implements Command {
                     return;
                 }
             } else {
-                routeId = electricTrain.getTrainTimetable().first().getRoute().getId();
+                routeId = train.getTrainTimetable().first().getRoute().getId();
             }
 
             System.out.print("\tДата отправления (dd.mm.yyyy): ");
@@ -220,16 +220,16 @@ public class AddCommand extends AlwaysCommand implements Command {
             Integer timeArrHours = Integer.parseInt(strTimeArrHours);
             System.out.print("\tВремя движения до конечного пункта (минут): ");
             String strTimeArrMinutes = reader.readLine();
-            if (strTimeArrMinutes.equals("")) {
+            if ("".equals(strTimeArrMinutes)) {
                 strTimeArrMinutes = "0";
             }
             Integer timeArrMinutes = Integer.parseInt(strTimeArrMinutes);
 
             if (timeArrMinutes == 0) {
-                electricTrainController.addScheduleLine(routeId, numberTrain, depDateTime, timeArrHours);
+                trainModelController.addScheduleLine(routeId, numberTrain, depDateTime, timeArrHours);
                 System.out.println("Расписание успешно добавлено.");
             } else {
-                electricTrainController.addScheduleLine(routeId, numberTrain, depDateTime, timeArrHours, timeArrMinutes);
+                trainModelController.addScheduleLine(routeId, numberTrain, depDateTime, timeArrHours, timeArrMinutes);
                 System.out.println("Расписание успешно добавлено.");
             }
 
@@ -245,9 +245,9 @@ public class AddCommand extends AlwaysCommand implements Command {
         while (true) {
             System.out.print("Добавить еще(y/n): ");
             String str = reader.readLine();
-            if (str.equals("y")) {
+            if ("y".equals(str)) {
                 return true;
-            } else if (str.equals("n")) {
+            } else if ("n".equals(str)) {
                 return false;
             }
         }
@@ -255,6 +255,6 @@ public class AddCommand extends AlwaysCommand implements Command {
 
     //проверка на команду выхода из процесса добавления
     private boolean isExitOperation(String string) {
-        return string.length() == 0 || string.equals("exit") || string.equals("");
+        return string.length() == 0 || "exit".equals(string) || "".equals(string);
     }
 }

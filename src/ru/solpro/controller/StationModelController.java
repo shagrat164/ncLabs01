@@ -87,7 +87,7 @@ public class StationModelController implements ModelController<Station>, Seriali
      *         false - станция не найдена для удаления
      */
     @Override
-    public boolean del(int id) {
+    public boolean remove(int id) {
         for (Station station : stations) {
             if (station.getId() == id) {
                 return stations.remove(station);
@@ -97,13 +97,9 @@ public class StationModelController implements ModelController<Station>, Seriali
     }
 
     @Override
-    public boolean del(Station station) {
+    public boolean remove(Station station) {
         return stations.remove(station);
     }
-
-//    public boolean add(int id, String name) {
-//        return stations.add(new Station(id, name));
-//    }
 
     @Override
     public boolean add(Station station) {
@@ -115,7 +111,7 @@ public class StationModelController implements ModelController<Station>, Seriali
     }
 
     @Override
-    public TreeSet<Station> get() {
+    public TreeSet<Station> getData() {
         return stations;
     }
 }

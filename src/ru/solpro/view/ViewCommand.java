@@ -1,7 +1,7 @@
 package ru.solpro.view;
 
 import ru.solpro.controller.*;
-import ru.solpro.controller.ElectricTrainModelController;
+import ru.solpro.controller.TrainModelController;
 import ru.solpro.controller.StationModelController;
 import ru.solpro.model.*;
 
@@ -30,7 +30,7 @@ public class ViewCommand extends AlwaysCommand implements Command {
                     viewTrains();
                     break;
                 case "SCHEDULE":
-                    if ((args.length == 2) && isNumber(args[i+1])) {
+                    if ((args.length == 2)) {
                         viewSchedule(Integer.parseInt(args[i+1]));
                         return true;
                     } else {
@@ -72,11 +72,11 @@ public class ViewCommand extends AlwaysCommand implements Command {
      */
     private void viewStations() throws SystemException {
         StationModelController stationController = StationModelController.getInstance();
-        if (stationController.get().isEmpty()) {
+        if (stationController.getData().isEmpty()) {
             error("Не определено ни одной станции.");
             return;
         }
-        for (Station station : stationController.get()) {
+        for (Station station : stationController.getData()) {
             System.out.println(station.getId() + ". " + station);
         }
     }
@@ -86,11 +86,11 @@ public class ViewCommand extends AlwaysCommand implements Command {
      */
     private void viewRoutes() throws SystemException {
         RouteModelController routeController = RouteModelController.getInstance();
-        if (routeController.get().isEmpty()) {
+        if (routeController.getData().isEmpty()) {
             error("Не определено ни одного маршрута.");
             return;
         }
-        for (Route route : routeController.get()) {
+        for (Route route : routeController.getData()) {
             System.out.println(route.getId() + ". " + route);
         }
     }
@@ -99,13 +99,13 @@ public class ViewCommand extends AlwaysCommand implements Command {
      * Вывод списка поездов в системе
      */
     private void viewTrains() throws SystemException {
-        ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
-        if (electricTrainController.get().isEmpty()) {
+        TrainModelController trainModelController = TrainModelController.getInstance();
+        if (trainModelController.getData().isEmpty()) {
             error("Не определено ни одного поезда.");
             return;
         }
-        for (ElectricTrain electricTrain : electricTrainController.get()) {
-            System.out.println(electricTrain);
+        for (Train train : trainModelController.getData()) {
+            System.out.println(train);
         }
     }
 
@@ -113,15 +113,15 @@ public class ViewCommand extends AlwaysCommand implements Command {
      * Расписание поездов за ближайшие 24 часа
      */
     private void viewSchedule() throws SystemException {
-        ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
-        if (electricTrainController.get().isEmpty()) {
+        TrainModelController trainModelController = TrainModelController.getInstance();
+        if (trainModelController.getData().isEmpty()) {
             error("Не определено ни одного поезда.");
             return;
         }
-        LinkedHashMap<ElectricTrain, ArrayList<Schedule>> result = electricTrainController.viewSchedule();
-        Iterator<Map.Entry<ElectricTrain, ArrayList<Schedule>>> iterator = result.entrySet().iterator();
+        LinkedHashMap<Train, ArrayList<Schedule>> result = trainModelController.viewSchedule();
+        Iterator<Map.Entry<Train, ArrayList<Schedule>>> iterator = result.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map.Entry<ElectricTrain, ArrayList<Schedule>> listEntry = iterator.next();
+            Map.Entry<Train, ArrayList<Schedule>> listEntry = iterator.next();
             for (Schedule schedule : listEntry.getValue()) {
                 System.out.println(listEntry.getKey() + " " + schedule);
             }
@@ -133,36 +133,21 @@ public class ViewCommand extends AlwaysCommand implements Command {
      * @param numberTrain   номер поезда
      */
     private void viewSchedule(int numberTrain) throws SystemException {
-        ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
-        if (electricTrainController.get().isEmpty()) {
+        TrainModelController trainModelController = TrainModelController.getInstance();
+        if (trainModelController.getData().isEmpty()) {
             error("Не определено ни одного поезда.");
             return;
         }
-        if (electricTrainController.viewSchedule(numberTrain) == null) {
+        if (trainModelController.viewSchedule(numberTrain) == null) {
             error("Поезда с данным номером не существует.");
             return;
         }
-        if (electricTrainController.viewSchedule(numberTrain).isEmpty()) {
+        if (trainModelController.viewSchedule(numberTrain).isEmpty()) {
             error("У поезда нет расписания.");
             return;
         }
-        for (Schedule schedule : electricTrainController.viewSchedule(numberTrain)) {
+        for (Schedule schedule : trainModelController.viewSchedule(numberTrain)) {
             System.out.println(schedule);
         }
-    }
-
-    /**
-     * Метод проверяет, является ли переданная строка числом
-     * @param s    строка для проверки
-     * @return     true - число, иначе false
-     */
-    private boolean isNumber(String s) {
-        char[] chars = s.toCharArray();
-        for (char aChar : chars) {
-            if (aChar < '0' || aChar > '9') {
-                return false;
-            }
-        }
-        return true;
     }
 }

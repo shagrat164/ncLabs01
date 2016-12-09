@@ -21,11 +21,11 @@ public interface ModelController<T> {
      */
     T search(int id);
 
-    boolean del(int id);
+    boolean remove(int id);
 
-    boolean del(T o);
+    boolean remove(T o);
 
     boolean add(T o);
 
-    TreeSet<T> get();
+    TreeSet<T> getData();
 }

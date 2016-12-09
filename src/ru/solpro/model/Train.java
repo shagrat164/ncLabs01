@@ -9,7 +9,7 @@ import java.util.TreeSet;
  *
  * @author Protsvetov Danila
  */
-public class ElectricTrain implements Comparable<ElectricTrain>, Serializable {
+public class Train implements Comparable<Train>, Serializable {
     private int trainNumber;                    //номер поезда
     private TreeSet<Schedule> trainTimetable;   //расписание
 
@@ -17,7 +17,7 @@ public class ElectricTrain implements Comparable<ElectricTrain>, Serializable {
      * Конструктор для создания поезда
      * @param trainNumber Номер поезда
      */
-    public ElectricTrain(int trainNumber) {
+    public Train(int trainNumber) {
         this.trainNumber = trainNumber;
         this.trainTimetable = new TreeSet<>();
     }
@@ -48,7 +48,7 @@ public class ElectricTrain implements Comparable<ElectricTrain>, Serializable {
     }
 
     @Override
-    public int compareTo(ElectricTrain o) {
+    public int compareTo(Train o) {
         if (trainNumber > o.getTrainNumber()) {
             return 1;
         } else if (trainNumber < o.getTrainNumber()) {
@@ -74,7 +74,7 @@ public class ElectricTrain implements Comparable<ElectricTrain>, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ElectricTrain that = (ElectricTrain) o;
+        Train that = (Train) o;
 
         if (trainNumber != that.trainNumber) return false;
         return trainTimetable != null ? trainTimetable.equals(that.trainTimetable) : that.trainTimetable == null;

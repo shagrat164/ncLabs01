@@ -1,10 +1,10 @@
 package ru.solpro.view;
 
-import ru.solpro.controller.ElectricTrainModelController;
+import ru.solpro.controller.TrainModelController;
 import ru.solpro.controller.RouteModelController;
 import ru.solpro.controller.StationModelController;
 import ru.solpro.controller.SystemException;
-import ru.solpro.model.ElectricTrain;
+import ru.solpro.model.Train;
 import ru.solpro.model.Route;
 import ru.solpro.model.Station;
 
@@ -77,11 +77,11 @@ public class DelCommand extends AlwaysCommand implements Command {
      */
     private void delTrain() throws IOException, SystemException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        ElectricTrainModelController electricTrainModelController = ElectricTrainModelController.getInstance();
+        TrainModelController trainModelController = TrainModelController.getInstance();
 
         System.out.print("Введите номер поезда: ");
         int numberTrain = Integer.parseInt(reader.readLine());
-        if (!electricTrainModelController.del(numberTrain)) {
+        if (!trainModelController.remove(numberTrain)) {
             error("Не найден поезд для удаления.");
         }
     }
@@ -92,7 +92,7 @@ public class DelCommand extends AlwaysCommand implements Command {
     private void delRoute() throws IOException, SystemException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         RouteModelController routeModelController = RouteModelController.getInstance();
-        ElectricTrainModelController electricTrainModelController = ElectricTrainModelController.getInstance();
+        TrainModelController trainModelController = TrainModelController.getInstance();
 
         System.out.print("Введите id маршрута который требуется удалить: ");
         int idRoute = Integer.parseInt(reader.readLine());
@@ -101,26 +101,26 @@ public class DelCommand extends AlwaysCommand implements Command {
             error("Не найден маршрут для удаления.");
         }
 
-        ArrayList<ElectricTrain> electricTrains = new ArrayList<>();
+        ArrayList<Train> trains = new ArrayList<>();
         //проверяются все поезда на совпадение с удаляемой станцией
-        for (ElectricTrain train : electricTrainModelController.get()) {
+        for (Train train : trainModelController.getData()) {
             if (train.getTrainTimetable().isEmpty() || train.getTrainTimetable() == null) {
                 continue;
             }
             if (train.getTrainTimetable().first().getRoute().equals(route)) {
-                electricTrains.add(train);
+                trains.add(train);
             }
         }
 
-        if (!electricTrains.isEmpty()) {
+        if (!trains.isEmpty()) {
             System.out.println("\tПо маршруту " + route + " передвигаются поезда с номерами:");
-            for (ElectricTrain electricTrain : electricTrains) {
-                System.out.print(" " + electricTrain.getTrainNumber());
+            for (Train train : trains) {
+                System.out.print(" " + train.getTrainNumber());
             }
             error("Удаление маршрута не возможно.");
         }
 
-        routeModelController.del(route);
+        routeModelController.remove(route);
     }
 
     /**
@@ -140,7 +140,7 @@ public class DelCommand extends AlwaysCommand implements Command {
 
         ArrayList<Route> routes = new ArrayList<>();
         //проверяются все маршруты на совпадение с удаляемой станцией
-        for (Route route : routeModelController.get()) {
+        for (Route route : routeModelController.getData()) {
             if (route == null) {
                 continue;
             }
@@ -157,6 +157,6 @@ public class DelCommand extends AlwaysCommand implements Command {
             error("Удаление станции не возможно.");
         }
 
-        stationModelController.del(station);
+        stationModelController.remove(station);
     }
 }

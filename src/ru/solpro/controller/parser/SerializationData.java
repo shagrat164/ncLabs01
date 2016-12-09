@@ -1,6 +1,6 @@
 package ru.solpro.controller.parser;
 
-import ru.solpro.controller.ElectricTrainModelController;
+import ru.solpro.controller.TrainModelController;
 import ru.solpro.controller.RouteModelController;
 import ru.solpro.controller.StationModelController;
 import ru.solpro.model.Route;
@@ -23,7 +23,7 @@ public class SerializationData implements DataParser {
     public void save() throws IOException {
         StationModelController stationModelController = StationModelController.getInstance();
         RouteModelController routeModelController = RouteModelController.getInstance();
-        ElectricTrainModelController electricTrainModelController = ElectricTrainModelController.getInstance();
+        TrainModelController trainModelController = TrainModelController.getInstance();
 
         FileOutputStream fileOutputStream;
         GZIPOutputStream gzipOutputStream;
@@ -49,7 +49,7 @@ public class SerializationData implements DataParser {
         gzipOutputStream = new GZIPOutputStream(fileOutputStream);
         objectOutputStream = new ObjectOutputStream(gzipOutputStream);
         Schedule.serializeStatic(objectOutputStream);
-        objectOutputStream.writeObject(electricTrainModelController);
+        objectOutputStream.writeObject(trainModelController);
         objectOutputStream.flush();
         objectOutputStream.close();
     }
@@ -78,10 +78,10 @@ public class SerializationData implements DataParser {
             gzipInputStream = new GZIPInputStream(fileInputStream);
             objectInputStream = new ObjectInputStream(gzipInputStream);
             Schedule.deserializeStatic(objectInputStream);
-            ElectricTrainModelController.setInstance((ElectricTrainModelController) objectInputStream.readObject());
+            TrainModelController.setInstance((TrainModelController) objectInputStream.readObject());
             fileInputStream.close();
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Error: " + e);
         }
     }
 }

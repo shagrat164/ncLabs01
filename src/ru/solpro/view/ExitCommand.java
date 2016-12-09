@@ -32,12 +32,8 @@ public class ExitCommand implements Command {
         return "Выход из программы";
     }
 
-    private void saveData() {
-        DataParser serializationData = new SerializationData();
-        try {
-            serializationData.save();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void saveData() throws IOException {
+        DataParser dataParser = new SerializationData();
+        dataParser.save();
     }
 }

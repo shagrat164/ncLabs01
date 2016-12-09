@@ -1,6 +1,6 @@
 package ru.solpro.controller;
 
-import ru.solpro.model.ElectricTrain;
+import ru.solpro.model.Train;
 import ru.solpro.model.Route;
 import ru.solpro.model.Schedule;
 
@@ -10,13 +10,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.TreeSet;
 
-public class ElectricTrainModelController implements ModelController<ElectricTrain>, Serializable {
-//    private static final long serialVersionUID = 1L;
-    private static ElectricTrainModelController instance;
-    private TreeSet<ElectricTrain> electricTrains;
+public class TrainModelController implements ModelController<Train>, Serializable {
+    private static TrainModelController instance;
+    private TreeSet<Train> trains;
 
-    private ElectricTrainModelController() {
-        electricTrains = new TreeSet<>();
+    private TrainModelController() {
+        trains = new TreeSet<>();
         // заполнение данными для первоначального тестирования
 //        add(1000);
 //        add(1001);
@@ -60,59 +59,59 @@ public class ElectricTrainModelController implements ModelController<ElectricTra
 //        addScheduleLine(6, 1206, LocalDateTime.now().plusDays(4), 10, 30);
     }
 
-    public static ElectricTrainModelController getInstance() {
+    public static TrainModelController getInstance() {
         if (instance == null) {
-            instance = new ElectricTrainModelController();
+            instance = new TrainModelController();
         }
         return instance;
     }
 
-    public static void setInstance(ElectricTrainModelController instance) {
-        ElectricTrainModelController.instance = instance;
+    public static void setInstance(TrainModelController instance) {
+        TrainModelController.instance = instance;
     }
 
     @Override
-    public ArrayList<ElectricTrain> search(String find) {
+    public ArrayList<Train> search(String find) {
         return null;
     }
 
     @Override
-    public ElectricTrain search(int numberTrain) {
-        for (ElectricTrain electricTrain : electricTrains) {
-            if (electricTrain.getTrainNumber() == numberTrain) {
-                return electricTrain;
+    public Train search(int numberTrain) {
+        for (Train train : trains) {
+            if (train.getTrainNumber() == numberTrain) {
+                return train;
             }
         }
         return null;
     }
 
     @Override
-    public boolean add(ElectricTrain electricTrain) {
-        return electricTrains.add(electricTrain);
+    public boolean add(Train train) {
+        return trains.add(train);
     }
 
     public boolean add(int trainNumber) {
-        return electricTrains.add(new ElectricTrain(trainNumber));
+        return trains.add(new Train(trainNumber));
     }
 
     @Override
-    public boolean del(int number) {
-        for (ElectricTrain electricTrain : electricTrains) {
-            if (electricTrain.getTrainNumber() == number) {
-                return electricTrains.remove(electricTrain);
+    public boolean remove(int number) {
+        for (Train train : trains) {
+            if (train.getTrainNumber() == number) {
+                return trains.remove(train);
             }
         }
         return false;
     }
 
     @Override
-    public boolean del(ElectricTrain electricTrain) {
-        return electricTrains.remove(electricTrain);
+    public boolean remove(Train train) {
+        return trains.remove(train);
     }
 
     @Override
-    public TreeSet<ElectricTrain> get() {
-        return electricTrains;
+    public TreeSet<Train> getData() {
+        return trains;
     }
 
     /**
@@ -124,9 +123,9 @@ public class ElectricTrainModelController implements ModelController<ElectricTra
      */
     public boolean addScheduleLine(int routeId, int numberTrains, LocalDateTime departureDateTime, long hours) {
         Route route = RouteModelController.getInstance().search(routeId);
-        ElectricTrain electricTrain = search(numberTrains);
-        if (electricTrain != null && route != null) {
-            electricTrain.addScheduleLine(route, departureDateTime, hours, 0);
+        Train train = search(numberTrains);
+        if (train != null && route != null) {
+            train.addScheduleLine(route, departureDateTime, hours, 0);
             return true;
         }
         return false;
@@ -141,17 +140,22 @@ public class ElectricTrainModelController implements ModelController<ElectricTra
      */
     public boolean addScheduleLine(int routeId, int numberTrain, LocalDateTime departureDateTime, long hours, long min) {
         Route route = RouteModelController.getInstance().search(routeId);
-        ElectricTrain electricTrain = search(numberTrain);
-        if (electricTrain != null && route != null) {
-            electricTrain.addScheduleLine(route, departureDateTime, hours, min);
+        Train train = search(numberTrain);
+        if (train != null && route != null) {
+            train.addScheduleLine(route, departureDateTime, hours, min);
             return true;
         }
         return false;
     }
 
+    /**
+     * Метод удаления строки в расписании поезда
+     * @param scheduleId
+     * @param numberTrain
+     */
     public void delScheduleLine(int scheduleId, int numberTrain) {
-        ElectricTrain electricTrain = search(numberTrain);
-        if (electricTrain != null) {
+        Train train = search(numberTrain);
+        if (train != null) {
             //TODO допилить
         }
     }
@@ -160,17 +164,17 @@ public class ElectricTrainModelController implements ModelController<ElectricTra
      * Расписание поездов за ближайшие 24 часа
      * @return Массив с расписанием.
      */
-    public LinkedHashMap<ElectricTrain, ArrayList<Schedule>> viewSchedule() {
-        LinkedHashMap<ElectricTrain, ArrayList<Schedule>> result = new LinkedHashMap<>();
+    public LinkedHashMap<Train, ArrayList<Schedule>> viewSchedule() {
+        LinkedHashMap<Train, ArrayList<Schedule>> result = new LinkedHashMap<>();
         LocalDateTime borderDateTime = LocalDateTime.now().plusHours(24);
-        for (ElectricTrain electricTrain : electricTrains) {
+        for (Train train : trains) {
             ArrayList<Schedule> resultSchedule = new ArrayList<>();
-            for (Schedule schedule : electricTrain.getTrainTimetable()) {
+            for (Schedule schedule : train.getTrainTimetable()) {
                 if (schedule.getDepartureDateTime().isBefore(borderDateTime)) {
                     resultSchedule.add(schedule);
                 }
             }
-            result.put(electricTrain, resultSchedule);
+            result.put(train, resultSchedule);
         }
         return result;
     }
@@ -180,7 +184,7 @@ public class ElectricTrainModelController implements ModelController<ElectricTra
      * @param numberTrain    номер поезда
      */
     public ArrayList<Schedule> viewSchedule(int numberTrain) {
-        ElectricTrain train = search(numberTrain);
+        Train train = search(numberTrain);
         if (train == null) {
             return null;
         }

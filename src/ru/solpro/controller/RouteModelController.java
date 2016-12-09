@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
  * @author Protsvetov Danila
  */
 public class RouteModelController implements ModelController<Route>, Serializable {
-//    private static final long serialVersionUID = 1L;
     private static RouteModelController instance;
     private TreeSet<Route> routes;
 
@@ -90,7 +89,7 @@ public class RouteModelController implements ModelController<Route>, Serializabl
      *         false - маршрут не найден для удаления
      */
     @Override
-    public boolean del(int id) {
+    public boolean remove(int id) {
         for (Route route : routes) {
             if (route.getId() == id) {
                 return routes.remove(route);
@@ -100,7 +99,7 @@ public class RouteModelController implements ModelController<Route>, Serializabl
     }
 
     @Override
-    public boolean del(Route route) {
+    public boolean remove(Route route) {
         return routes.remove(route);
     }
 
@@ -120,7 +119,7 @@ public class RouteModelController implements ModelController<Route>, Serializabl
     }
 
     @Override
-    public TreeSet<Route> get() {
+    public TreeSet<Route> getData() {
         return routes;
     }
 }

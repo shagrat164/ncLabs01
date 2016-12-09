@@ -1,10 +1,10 @@
 package ru.solpro.view;
 
-import ru.solpro.controller.ElectricTrainModelController;
+import ru.solpro.controller.TrainModelController;
 import ru.solpro.controller.RouteModelController;
 import ru.solpro.controller.StationModelController;
 import ru.solpro.controller.SystemException;
-import ru.solpro.model.ElectricTrain;
+import ru.solpro.model.Train;
 import ru.solpro.model.Route;
 import ru.solpro.model.Schedule;
 import ru.solpro.model.Station;
@@ -67,21 +67,21 @@ public class EditCommand extends AlwaysCommand implements Command {
     private void editTrain() throws IOException, SystemException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         RouteModelController routeModelController = RouteModelController.getInstance();
-        ElectricTrainModelController electricTrainModelController = ElectricTrainModelController.getInstance();
+        TrainModelController trainModelController = TrainModelController.getInstance();
 
         System.out.print("\tВведите номер поезда для редактирования: ");
         Integer numberTrain = Integer.parseInt(reader.readLine());
-        ElectricTrain editElectricTrain = electricTrainModelController.search(numberTrain);
-        if (editElectricTrain == null) {
+        Train editTrain = trainModelController.search(numberTrain);
+        if (editTrain == null) {
             error("Не найден поезд для редактирования.");
         }
-        System.out.println("\tВыбран поезд: " + editElectricTrain);
+        System.out.println("\tВыбран поезд: " + editTrain);
 
         System.out.print("\tВведите новый номер поезда (если изменять не нужно, оставте поле пустым): ");
         String str1 = reader.readLine();
         Integer newNumberTrain;
-        if (str1.equals("")) {
-            newNumberTrain = editElectricTrain.getTrainNumber();
+        if ("".equals(str1)) {
+            newNumberTrain = editTrain.getTrainNumber();
         } else {
             newNumberTrain = Integer.parseInt(str1);
         }
@@ -89,22 +89,22 @@ public class EditCommand extends AlwaysCommand implements Command {
         System.out.print("\tВведите новый id маршрута (если изменять не нужно, оставте поле пустым): ");
         String str2 = reader.readLine();
         Integer newRouteId;
-        if (str2.equals("")) {
-            newRouteId = editElectricTrain.getTrainTimetable().last().getRoute().getId();
+        if ("".equals(str2)) {
+            newRouteId = editTrain.getTrainTimetable().last().getRoute().getId();
         } else {
             newRouteId = Integer.parseInt(str2);
             Route route = routeModelController.search(newRouteId);
             if (route == null) {
                 error("Маршрут не найден.");
             }
-            editElectricTrain.clearTrainTimetable();
-            editTrainRoute(editElectricTrain, route);
+            editTrain.clearTrainTimetable();
+            editTrainRoute(editTrain, route);
         }
 
-        for (Schedule schedule : editElectricTrain.getTrainTimetable()) {
+        for (Schedule schedule : editTrain.getTrainTimetable()) {
             schedule.setRoute(routeModelController.search(newRouteId));
         }
-        editElectricTrain.setTrainNumber(newNumberTrain);
+        editTrain.setTrainNumber(newNumberTrain);
     }
 
     /**
@@ -112,9 +112,9 @@ public class EditCommand extends AlwaysCommand implements Command {
      * @throws IOException
      * @throws SystemException
      */
-    private void editTrainRoute(ElectricTrain electricTrain, Route routeId) throws IOException, SystemException {
+    private void editTrainRoute(Train train, Route routeId) throws IOException, SystemException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        ElectricTrainModelController electricTrainController = ElectricTrainModelController.getInstance();
+        TrainModelController trainModelController = TrainModelController.getInstance();
 
         System.out.println("\tПосле изменения маршрута необходимо добавить запись в расписание.");
         System.out.print("\tДата отправления (dd.mm.yyyy): ");
@@ -136,15 +136,15 @@ public class EditCommand extends AlwaysCommand implements Command {
 
         System.out.print("\tВремя движения до конечного пункта (минут): ");
         String strTimeArrMinutes = reader.readLine();
-        if (strTimeArrMinutes.equals("")) {
+        if ("".equals(strTimeArrMinutes)) {
             strTimeArrMinutes = "0";
         }
         Integer timeArrMinutes = Integer.parseInt(strTimeArrMinutes);
 
         if (timeArrMinutes == 0) {
-            electricTrainController.addScheduleLine(routeId.getId(), electricTrain.getTrainNumber(), depDateTime, timeArrHours);
+            trainModelController.addScheduleLine(routeId.getId(), train.getTrainNumber(), depDateTime, timeArrHours);
         } else {
-            electricTrainController.addScheduleLine(routeId.getId(), electricTrain.getTrainNumber(), depDateTime, timeArrHours, timeArrMinutes);
+            trainModelController.addScheduleLine(routeId.getId(), train.getTrainNumber(), depDateTime, timeArrHours, timeArrMinutes);
         }
         System.out.println("Расписание успешно добавлено.");
     }
@@ -165,7 +165,7 @@ public class EditCommand extends AlwaysCommand implements Command {
         System.out.print("\tВведите новый id станции отправления (если изменять не нужно, оставте поле пустым): ");
         String str1 = reader.readLine();
         Integer newIdDepSt;
-        if (str1.equals("")) {
+        if ("".equals(str1)) {
             newIdDepSt = editRoute.getDeparture().getId();
         } else {
             newIdDepSt = Integer.parseInt(str1);
@@ -178,7 +178,7 @@ public class EditCommand extends AlwaysCommand implements Command {
         System.out.print("\tВведите новый id станции назначения (если изменять не нужно, оставте поле пустым): ");
         String str2 = reader.readLine();
         Integer newIdArrSt;
-        if (str2.equals("")) {
+        if ("".equals(str2)) {
             newIdArrSt = editRoute.getArrival().getId();
         } else {
             newIdArrSt = Integer.parseInt(str2);
