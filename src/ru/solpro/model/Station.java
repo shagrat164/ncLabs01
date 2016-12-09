@@ -1,5 +1,6 @@
 package ru.solpro.model;
 
+import javax.xml.bind.annotation.XmlType;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * @author Protsvetov Danila
  */
 
+@XmlType(propOrder = {"id", "nameStation"}, name = "station")
 public class Station implements Comparable<Station>, Serializable {
     private static int count;
     private int id;
@@ -34,6 +36,10 @@ public class Station implements Comparable<Station>, Serializable {
         count += 1;
         this.id = count;
         this.nameStation = name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNameStation() {

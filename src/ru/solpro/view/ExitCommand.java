@@ -3,11 +3,12 @@ package ru.solpro.view;
 import ru.solpro.controller.SystemException;
 import ru.solpro.controller.parser.DataParser;
 import ru.solpro.controller.parser.SerializationData;
+import ru.solpro.controller.parser.XmlData;
 
 import java.io.IOException;
 
 /**
- * Created by Администратор on 30.11.2016.
+ * @author Protsvetov Danila
  */
 public class ExitCommand implements Command {
 
@@ -33,7 +34,8 @@ public class ExitCommand implements Command {
     }
 
     private void saveData() throws IOException {
-        DataParser dataParser = new SerializationData();
+//        DataParser dataParser = new SerializationData();
+        DataParser dataParser = new XmlData();
         dataParser.save();
     }
 }

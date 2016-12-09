@@ -12,6 +12,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 /**
+ * Класс выполняет сериализацию/десериализацию со сжатием данных
  * @author Protsvetov Danila
  */
 public class SerializationData implements DataParser {
