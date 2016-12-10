@@ -1,5 +1,8 @@
 package ru.solpro.model;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,6 +13,8 @@ import java.io.Serializable;
  *
  * @author Protsvetov Danila
  */
+
+@XmlRootElement(name = "route")
 public class Route implements Comparable<Route>, Serializable {
     private static int count;
     private int id;
@@ -24,18 +29,8 @@ public class Route implements Comparable<Route>, Serializable {
         count = objectInputStream.readInt();
     }
 
-//    /**
-//     *
-//     * @param id           идентификатор маршрута
-//     * @param departure    станция отправления
-//     * @param arrival      станция прибытия
-//     */
-//    Route(int id, Station departure, Station arrival) {
-//        count += 1;
-//        this.id = id;
-//        this.departure = departure;
-//        this.arrival = arrival;
-//    }
+    public Route() {
+    }
 
     /**
      *
@@ -46,17 +41,31 @@ public class Route implements Comparable<Route>, Serializable {
         this.departure = departure;
         this.arrival = arrival;
         count += 1;
-        id = count;
+        this.id = count;
     }
 
+    @XmlAttribute(name = "id")
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public static int getCount() {
+        return count;
+    }
+
+    public static void setCount(int count) {
+        Route.count = count;
     }
 
     /**
      *
      * @return станция отправления
      */
+    @XmlElement(name = "dep")
     public Station getDeparture() {
         return departure;
     }
@@ -65,6 +74,7 @@ public class Route implements Comparable<Route>, Serializable {
      *
      * @return станция прибытия
      */
+    @XmlElement(name = "arr")
     public Station getArrival() {
         return arrival;
     }

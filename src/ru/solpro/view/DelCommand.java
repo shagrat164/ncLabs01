@@ -67,9 +67,17 @@ public class DelCommand extends AlwaysCommand implements Command {
     /**
      * Удаление расписания у поезда
      */
-    private void delSchedule() {
+    private void delSchedule() throws IOException, SystemException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        //TODO допилить
+        TrainModelController trainModelController = TrainModelController.getInstance();
+
+        System.out.print("\tВведите номер поезда: ");
+        int numberTrain = Integer.parseInt(reader.readLine());
+        System.out.print("\tВведите id расписания: ");
+        int idSchedule = Integer.parseInt(reader.readLine());
+        if (!trainModelController.delScheduleLine(idSchedule, numberTrain)) {
+            error("Невозможно удалить строку расписания.");
+        }
     }
 
     /**
@@ -79,7 +87,7 @@ public class DelCommand extends AlwaysCommand implements Command {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         TrainModelController trainModelController = TrainModelController.getInstance();
 
-        System.out.print("Введите номер поезда: ");
+        System.out.print("\tВведите номер поезда: ");
         int numberTrain = Integer.parseInt(reader.readLine());
         if (!trainModelController.remove(numberTrain)) {
             error("Не найден поезд для удаления.");

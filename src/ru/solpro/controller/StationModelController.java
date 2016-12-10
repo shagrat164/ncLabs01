@@ -2,6 +2,7 @@ package ru.solpro.controller;
 
 import ru.solpro.model.Station;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
@@ -10,15 +11,18 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@XmlType(propOrder = {"stations"}, name = "stations")
-@XmlRootElement
+/**
+ * @author Protsvetov Danila
+ */
+
+@XmlRootElement(name = "stations")
 public class StationModelController implements ModelController<Station>, Serializable {
     private static StationModelController instance;
     private TreeSet<Station> stations;
 
     private StationModelController() {
         stations = new TreeSet<>();
-//заполнение данными для первоначального тестирования
+        //заполнение данными для первоначального тестирования
 //        add("САРАТОВ-1");
 //        add("ТАТИЩЕВО");
 //        add("АТКАРСК");
@@ -40,6 +44,7 @@ public class StationModelController implements ModelController<Station>, Seriali
         instance = stationModelController;
     }
 
+    @XmlElement(name = "station")
     public TreeSet<Station> getStations() {
         return stations;
     }

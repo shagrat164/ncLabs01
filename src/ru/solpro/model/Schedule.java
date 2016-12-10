@@ -1,8 +1,11 @@
 package ru.solpro.model;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import ru.solpro.controller.adapter.LocalDateTimeAdapter;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,36 +15,63 @@ import java.time.format.DateTimeFormatter;
  *
  * @author Protsvetov Danila
  */
+
+@XmlType(name = "schedule")
 public class Schedule implements Comparable<Schedule>, Serializable {
-//    private int numberTrain;
-    private static int count;
+//    private static int count;
     private int id;
     private Route route;
     private LocalDateTime departureDateTime;    //дата/время отправления
     private long hour;                          //время в пути
     private long min;                           //время в пути
 
-    public static void serializeStatic(ObjectOutputStream objectOutputStream) throws IOException {
-        objectOutputStream.writeInt(count);
+//    public static void serializeStatic(ObjectOutputStream objectOutputStream) throws IOException {
+//        objectOutputStream.writeInt(count);
+//    }
+//
+//    public static void deserializeStatic(ObjectInputStream objectInputStream) throws IOException {
+//        count = objectInputStream.readInt();
+//    }
+
+    public Schedule() {
     }
 
-    public static void deserializeStatic(ObjectInputStream objectInputStream) throws IOException {
-        count = objectInputStream.readInt();
-    }
-
-    Schedule(Route route, LocalDateTime departureDateTime, long hour, long min) {
-        count += 1;
-        this.id = count;
+    Schedule(int id, Route route, LocalDateTime departureDateTime, long hour, long min) {
+        this.id = id;
         this.route = route;
         this.departureDateTime = departureDateTime;
         this.hour = hour;
         this.min = min;
     }
 
+    @XmlElement
+    public long getHour() {
+        return hour;
+    }
+
+    public void setHour(long hour) {
+        this.hour = hour;
+    }
+
+    @XmlElement
+    public long getMin() {
+        return min;
+    }
+
+    public void setMin(long min) {
+        this.min = min;
+    }
+
+    @XmlAttribute(name = "id")
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @XmlElement
     public Route getRoute() {
         return route;
     }
@@ -50,8 +80,13 @@ public class Schedule implements Comparable<Schedule>, Serializable {
         this.route = route;
     }
 
+    @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
     public LocalDateTime getDepartureDateTime() {
         return departureDateTime;
+    }
+
+    public void setDepartureDateTime(LocalDateTime departureDateTime) {
+        this.departureDateTime = departureDateTime;
     }
 
     private LocalDateTime getArrivalDateTime() {

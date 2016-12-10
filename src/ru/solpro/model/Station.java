@@ -1,5 +1,8 @@
 package ru.solpro.model;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,7 +15,7 @@ import java.io.Serializable;
  * @author Protsvetov Danila
  */
 
-@XmlType(propOrder = {"id", "nameStation"}, name = "station")
+@XmlRootElement(name = "station")
 public class Station implements Comparable<Station>, Serializable {
     private static int count;
     private int id;
@@ -26,10 +29,11 @@ public class Station implements Comparable<Station>, Serializable {
         count = objectInputStream.readInt();
     }
 
-    public Station(int id, String name) {
-        count += 1;
-        this.id = id;
-        this.nameStation = name;
+    public static void setCount(int count) {
+        Station.count = count;
+    }
+
+    public Station() {
     }
 
     public Station(String name) {
@@ -38,20 +42,22 @@ public class Station implements Comparable<Station>, Serializable {
         this.nameStation = name;
     }
 
+    @XmlAttribute(name = "id")
+    public int getId() {
+        return id;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 
+    @XmlElement(name = "name")
     public String getNameStation() {
         return nameStation;
     }
 
     public void setNameStation(String nameStation) {
         this.nameStation = nameStation;
-    }
-
-    public int getId() {
-        return id;
     }
 
     @Override

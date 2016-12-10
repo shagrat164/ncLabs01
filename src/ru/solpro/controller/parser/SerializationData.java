@@ -49,7 +49,6 @@ public class SerializationData implements DataParser {
         fileOutputStream = new FileOutputStream(trainsFileName);
         gzipOutputStream = new GZIPOutputStream(fileOutputStream);
         objectOutputStream = new ObjectOutputStream(gzipOutputStream);
-        Schedule.serializeStatic(objectOutputStream);
         objectOutputStream.writeObject(trainModelController);
         objectOutputStream.flush();
         objectOutputStream.close();
@@ -78,7 +77,6 @@ public class SerializationData implements DataParser {
             fileInputStream = new FileInputStream(trainsFileName);
             gzipInputStream = new GZIPInputStream(fileInputStream);
             objectInputStream = new ObjectInputStream(gzipInputStream);
-            Schedule.deserializeStatic(objectInputStream);
             TrainModelController.setInstance((TrainModelController) objectInputStream.readObject());
             fileInputStream.close();
         } catch (ClassNotFoundException e) {

@@ -82,9 +82,6 @@ public class AddCommand extends AlwaysCommand implements Command {
             }
             if (stationController.search(nameStation).isEmpty() && stationController.add(nameStation)) {
                 System.out.println("Станция успешно добавлена.");
-                if (!isAddMore()) {
-                    return;
-                }
             } else {
                 error("Невозможно добавить станцию. Станция с таким названием существует.");
             }
@@ -119,9 +116,6 @@ public class AddCommand extends AlwaysCommand implements Command {
 
             if (routeController.add(idDepStation, idArrStation)) {
                 System.out.println("Маршрут успешно добавлен.");
-                if (!isAddMore()) {
-                    return;
-                }
             } else {
                 error("Невозможно добавить маршрут.");
             }
@@ -149,9 +143,6 @@ public class AddCommand extends AlwaysCommand implements Command {
 
             if (trainModelController.search(numberTrain) == null && trainModelController.add(numberTrain)) {
                 System.out.println("Поезд успешно добавлен.");
-                if (!isAddMore()) {
-                    return;
-                }
             } else {
                 error("Невозможно добавить поезд.");
             }
@@ -231,24 +222,6 @@ public class AddCommand extends AlwaysCommand implements Command {
             } else {
                 trainModelController.addScheduleLine(routeId, numberTrain, depDateTime, timeArrHours, timeArrMinutes);
                 System.out.println("Расписание успешно добавлено.");
-            }
-
-            if (!isAddMore()) {
-                    return;
-            }
-        }
-    }
-
-    //запрос на еще одно добавление в базу
-    private boolean isAddMore() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        while (true) {
-            System.out.print("Добавить еще(y/n): ");
-            String str = reader.readLine();
-            if ("y".equals(str)) {
-                return true;
-            } else if ("n".equals(str)) {
-                return false;
             }
         }
     }

@@ -3,6 +3,8 @@ package ru.solpro.controller;
 import ru.solpro.model.Route;
 import ru.solpro.model.Station;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -12,6 +14,8 @@ import java.util.regex.Pattern;
 /**
  * @author Protsvetov Danila
  */
+
+@XmlRootElement(name = "routes")
 public class RouteModelController implements ModelController<Route>, Serializable {
     private static RouteModelController instance;
     private TreeSet<Route> routes;
@@ -37,6 +41,15 @@ public class RouteModelController implements ModelController<Route>, Serializabl
             instance = new RouteModelController();
         }
         return instance;
+    }
+
+    @XmlElement(name = "route")
+    public TreeSet<Route> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(TreeSet<Route> routes) {
+        this.routes = routes;
     }
 
     /**

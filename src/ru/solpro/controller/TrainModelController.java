@@ -4,12 +4,15 @@ import ru.solpro.model.Train;
 import ru.solpro.model.Route;
 import ru.solpro.model.Schedule;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.TreeSet;
 
+@XmlRootElement(name = "trains")
 public class TrainModelController implements ModelController<Train>, Serializable {
     private static TrainModelController instance;
     private TreeSet<Train> trains;
@@ -68,6 +71,15 @@ public class TrainModelController implements ModelController<Train>, Serializabl
 
     public static void setInstance(TrainModelController instance) {
         TrainModelController.instance = instance;
+    }
+
+    @XmlElement(name = "train")
+    public TreeSet<Train> getTrains() {
+        return trains;
+    }
+
+    public void setTrains(TreeSet<Train> trains) {
+        this.trains = trains;
     }
 
     @Override
@@ -153,11 +165,19 @@ public class TrainModelController implements ModelController<Train>, Serializabl
      * @param scheduleId
      * @param numberTrain
      */
-    public void delScheduleLine(int scheduleId, int numberTrain) {
+    public boolean delScheduleLine(int scheduleId, int numberTrain) {
         Train train = search(numberTrain);
         if (train != null) {
-            //TODO допилить
+            TreeSet<Schedule> schedule = train.getTrainTimetable();
+            if (!schedule.isEmpty()) {
+                for (Schedule schedule1 : schedule) {
+                    if (schedule1.getId() == scheduleId) {
+                        return train.delScheduleLine(schedule1);
+                    }
+                }
+            }
         }
+        return false;
     }
 
     /**

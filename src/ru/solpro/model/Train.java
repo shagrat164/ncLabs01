@@ -1,5 +1,7 @@
 package ru.solpro.model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.TreeSet;
@@ -9,9 +11,15 @@ import java.util.TreeSet;
  *
  * @author Protsvetov Danila
  */
+
+@XmlRootElement(name = "train")
 public class Train implements Comparable<Train>, Serializable {
     private int trainNumber;                    //номер поезда
     private TreeSet<Schedule> trainTimetable;   //расписание
+
+    public Train() {
+        this.trainTimetable = new TreeSet<>();
+    }
 
     /**
      * Конструктор для создания поезда
@@ -20,6 +28,24 @@ public class Train implements Comparable<Train>, Serializable {
     public Train(int trainNumber) {
         this.trainNumber = trainNumber;
         this.trainTimetable = new TreeSet<>();
+    }
+
+    @XmlElement
+    public TreeSet<Schedule> getTrainTimetable() {
+        return trainTimetable;
+    }
+
+    public void setTrainTimetable(TreeSet<Schedule> trainTimetable) {
+        this.trainTimetable = trainTimetable;
+    }
+
+    @XmlElement(name = "number", required = true)
+    public int getTrainNumber() {
+        return trainNumber;
+    }
+
+    public void setTrainNumber(int trainNumber) {
+        this.trainNumber = trainNumber;
     }
 
     /**
@@ -31,20 +57,16 @@ public class Train implements Comparable<Train>, Serializable {
         }
     }
 
-    public TreeSet<Schedule> getTrainTimetable() {
-        return trainTimetable;
-    }
-
     public void addScheduleLine(Route route, LocalDateTime departureDateTime, long hours, long min) {
-        this.trainTimetable.add(new Schedule(route, departureDateTime, hours, min));
+        int idSchedule = 1;
+        if (!this.trainTimetable.isEmpty()) {
+            idSchedule = this.trainTimetable.last().getId() + 1;
+        }
+        this.trainTimetable.add(new Schedule(idSchedule, route, departureDateTime, hours, min));
     }
 
-    public int getTrainNumber() {
-        return trainNumber;
-    }
-
-    public void setTrainNumber(int trainNumber) {
-        this.trainNumber = trainNumber;
+    public boolean delScheduleLine(Schedule schedule) {
+        return this.trainTimetable.remove(schedule);
     }
 
     @Override

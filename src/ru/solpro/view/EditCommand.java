@@ -207,7 +207,7 @@ public class EditCommand extends AlwaysCommand implements Command {
         if (!stationModelController.search(newNameStation).isEmpty()) {
             error("Такое название уже существует.");
         }
-        editStation.setNameStation(newNameStation);
+        editStation.setNameStation(newNameStation.toUpperCase());
         System.out.println("\tРеадктирование завершено.");
     }
 }
