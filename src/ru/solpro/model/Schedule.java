@@ -16,7 +16,11 @@ import java.time.format.DateTimeFormatter;
  * @author Protsvetov Danila
  */
 
-@XmlType(name = "schedule")
+@XmlType(name = "schedule", propOrder = {
+        "route",
+        "departureDateTime",
+        "hour",
+        "min"})
 public class Schedule implements Comparable<Schedule>, Serializable {
 //    private static int count;
     private int id;

@@ -21,41 +21,47 @@ public class SerializationData implements DataParser {
     private String trainsFileName = "src\\ru\\solpro\\res\\trains.data";
 
     @Override
-    public void save() throws IOException {
-        StationModelController stationModelController = StationModelController.getInstance();
-        RouteModelController routeModelController = RouteModelController.getInstance();
-        TrainModelController trainModelController = TrainModelController.getInstance();
+    public void save() {
+        try {
+            StationModelController stationModelController = StationModelController.getInstance();
+            RouteModelController routeModelController = RouteModelController.getInstance();
+            TrainModelController trainModelController = TrainModelController.getInstance();
 
-        FileOutputStream fileOutputStream;
-        GZIPOutputStream gzipOutputStream;
-        ObjectOutputStream objectOutputStream;
+            FileOutputStream fileOutputStream;
+            GZIPOutputStream gzipOutputStream;
+            ObjectOutputStream objectOutputStream;
 
-        fileOutputStream = new FileOutputStream(stationsFileName);
-        gzipOutputStream = new GZIPOutputStream(fileOutputStream);
-        objectOutputStream = new ObjectOutputStream(gzipOutputStream);
-        Station.serializeStatic(objectOutputStream);
-        objectOutputStream.writeObject(stationModelController);
-        objectOutputStream.flush();
-        objectOutputStream.close();
+            fileOutputStream = new FileOutputStream(stationsFileName);
+            gzipOutputStream = new GZIPOutputStream(fileOutputStream);
+            objectOutputStream = new ObjectOutputStream(gzipOutputStream);
+            Station.serializeStatic(objectOutputStream);
+            objectOutputStream.writeObject(stationModelController);
+            objectOutputStream.flush();
+            objectOutputStream.close();
 
-        fileOutputStream = new FileOutputStream(routesFileName);
-        gzipOutputStream = new GZIPOutputStream(fileOutputStream);
-        objectOutputStream = new ObjectOutputStream(gzipOutputStream);
-        Route.serializeStatic(objectOutputStream);
-        objectOutputStream.writeObject(routeModelController);
-        objectOutputStream.flush();
-        objectOutputStream.close();
+            fileOutputStream = new FileOutputStream(routesFileName);
+            gzipOutputStream = new GZIPOutputStream(fileOutputStream);
+            objectOutputStream = new ObjectOutputStream(gzipOutputStream);
+            Route.serializeStatic(objectOutputStream);
+            objectOutputStream.writeObject(routeModelController);
+            objectOutputStream.flush();
+            objectOutputStream.close();
 
-        fileOutputStream = new FileOutputStream(trainsFileName);
-        gzipOutputStream = new GZIPOutputStream(fileOutputStream);
-        objectOutputStream = new ObjectOutputStream(gzipOutputStream);
-        objectOutputStream.writeObject(trainModelController);
-        objectOutputStream.flush();
-        objectOutputStream.close();
+            fileOutputStream = new FileOutputStream(trainsFileName);
+            gzipOutputStream = new GZIPOutputStream(fileOutputStream);
+            objectOutputStream = new ObjectOutputStream(gzipOutputStream);
+            objectOutputStream.writeObject(trainModelController);
+            objectOutputStream.flush();
+            objectOutputStream.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: " + e);
+        } catch (IOException e) {
+            System.out.println("Error: " + e);
+        }
     }
 
     @Override
-    public void load() throws IOException  {
+    public void load() {
         FileInputStream fileInputStream;
         GZIPInputStream gzipInputStream;
         ObjectInputStream objectInputStream;
@@ -80,6 +86,10 @@ public class SerializationData implements DataParser {
             TrainModelController.setInstance((TrainModelController) objectInputStream.readObject());
             fileInputStream.close();
         } catch (ClassNotFoundException e) {
+            System.out.println("Error: " + e);
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: " + e);
+        } catch (IOException e) {
             System.out.println("Error: " + e);
         }
     }

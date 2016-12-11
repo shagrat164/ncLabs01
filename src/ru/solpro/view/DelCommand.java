@@ -152,7 +152,7 @@ public class DelCommand extends AlwaysCommand implements Command {
             if (route == null) {
                 continue;
             }
-            if (route.getDeparture().equals(station) || route.getArrival().equals(station)) {
+            if (route.getIdDeparture() == idStation || route.getIdArrival() == idStation) {
                 routes.add(route);
             }
         }

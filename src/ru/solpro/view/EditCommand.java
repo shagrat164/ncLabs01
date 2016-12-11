@@ -154,19 +154,18 @@ public class EditCommand extends AlwaysCommand implements Command {
         StationModelController stationModelController = StationModelController.getInstance();
         RouteModelController routeModelController = RouteModelController.getInstance();
 
-        System.out.print("\tВведите номер маршрута для редактирования: ");
+        System.out.print("\tВведите id маршрута для редактирования: ");
         Integer number = Integer.parseInt(reader.readLine());
         Route editRoute = routeModelController.search(number);
         if (editRoute == null) {
             error("Не найден маршрут для редактирования.");
         }
-        System.out.println("\tВыбран маршрут: " + editRoute);
 
         System.out.print("\tВведите новый id станции отправления (если изменять не нужно, оставте поле пустым): ");
         String str1 = reader.readLine();
         Integer newIdDepSt;
         if ("".equals(str1)) {
-            newIdDepSt = editRoute.getDeparture().getId();
+            newIdDepSt = editRoute.getIdDeparture();
         } else {
             newIdDepSt = Integer.parseInt(str1);
         }
@@ -179,7 +178,7 @@ public class EditCommand extends AlwaysCommand implements Command {
         String str2 = reader.readLine();
         Integer newIdArrSt;
         if ("".equals(str2)) {
-            newIdArrSt = editRoute.getArrival().getId();
+            newIdArrSt = editRoute.getIdArrival();
         } else {
             newIdArrSt = Integer.parseInt(str2);
         }
@@ -188,8 +187,8 @@ public class EditCommand extends AlwaysCommand implements Command {
             error("Станция с id=" + newIdArrSt + " не найдена.");
         }
 
-        editRoute.setDeparture(newDepSt);
-        editRoute.setArrival(newArrSt);
+        editRoute.setIdDeparture(newIdDepSt);
+        editRoute.setIdArrival(newIdArrSt);
     }
 
     private void editStation() throws IOException, SystemException {

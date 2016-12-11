@@ -1,8 +1,11 @@
 package ru.solpro.model;
 
+import ru.solpro.controller.StationModelController;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -14,12 +17,14 @@ import java.io.Serializable;
  * @author Protsvetov Danila
  */
 
+@XmlType(propOrder = {"idDeparture",
+                      "idArrival"})
 @XmlRootElement(name = "route")
 public class Route implements Comparable<Route>, Serializable {
     private static int count;
     private int id;
-    private Station departure;   //отправление
-    private Station arrival;     //прибытие
+    private int idDeparture;   //отправление
+    private int idArrival;     //прибытие
 
     public static void serializeStatic(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.writeInt(count);
@@ -34,17 +39,17 @@ public class Route implements Comparable<Route>, Serializable {
 
     /**
      *
-     * @param departure     станция отправления
-     * @param arrival       станция прибытия
+     * @param idDeparture     станция отправления
+     * @param idArrival       станция прибытия
      */
-    public Route(Station departure, Station arrival) {
-        this.departure = departure;
-        this.arrival = arrival;
+    public Route(int idDeparture, int idArrival) {
+        this.idDeparture = idDeparture;
+        this.idArrival = idArrival;
         count += 1;
         this.id = count;
     }
 
-    @XmlAttribute(name = "id")
+    @XmlAttribute
     public int getId() {
         return id;
     }
@@ -65,34 +70,34 @@ public class Route implements Comparable<Route>, Serializable {
      *
      * @return станция отправления
      */
-    @XmlElement(name = "dep")
-    public Station getDeparture() {
-        return departure;
+    @XmlElement
+    public int getIdDeparture() {
+        return idDeparture;
     }
 
     /**
      *
      * @return станция прибытия
      */
-    @XmlElement(name = "arr")
-    public Station getArrival() {
-        return arrival;
+    @XmlElement
+    public int getIdArrival() {
+        return idArrival;
     }
 
     /**
      *
-     * @param departure
+     * @param idDeparture
      */
-    public void setDeparture(Station departure) {
-        this.departure = departure;
+    public void setIdDeparture(int idDeparture) {
+        this.idDeparture = idDeparture;
     }
 
     /**
      *
-     * @param arrival
+     * @param idArrival
      */
-    public void setArrival(Station arrival) {
-        this.arrival = arrival;
+    public void setIdArrival(int idArrival) {
+        this.idArrival = idArrival;
     }
 
     @Override
@@ -108,7 +113,10 @@ public class Route implements Comparable<Route>, Serializable {
 
     @Override
     public String toString() {
-        return departure + "->" + arrival;
+        // Не уверен в правильности этого решения,
+        // но это первое что пришло в голову.
+        return StationModelController.getInstance().search(idDeparture).getNameStation() +
+                "->" + StationModelController.getInstance().search(idArrival).getNameStation();
     }
 
     @Override
@@ -118,15 +126,17 @@ public class Route implements Comparable<Route>, Serializable {
 
         Route route = (Route) o;
 
-        if (!departure.equals(route.departure)) return false;
-        return arrival.equals(route.arrival);
+        if (id != route.id) return false;
+        if (idDeparture != route.idDeparture) return false;
+        return idArrival == route.idArrival;
 
     }
 
     @Override
     public int hashCode() {
-        int result = departure.hashCode();
-        result = 31 * result + arrival.hashCode();
+        int result = id;
+        result = 31 * result + idDeparture;
+        result = 31 * result + idArrival;
         return result;
     }
 }

@@ -39,7 +39,7 @@ public class Train implements Comparable<Train>, Serializable {
         this.trainTimetable = trainTimetable;
     }
 
-    @XmlElement(name = "number", required = true)
+    @XmlElement(name = "number")
     public int getTrainNumber() {
         return trainNumber;
     }

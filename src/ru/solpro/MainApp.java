@@ -5,8 +5,6 @@ import ru.solpro.controller.parser.DataParser;
 import ru.solpro.controller.parser.SerializationData;
 import ru.solpro.controller.parser.XmlData;
 
-import java.io.IOException;
-
 /**
  * Задание
  * Информационная система "Расписание электричек"
@@ -21,11 +19,7 @@ public class MainApp {
     private static void init() {
 //        DataParser dataParser = new SerializationData();
         DataParser dataParser = new XmlData();
-        try {
-            dataParser.load();
-        } catch (IOException e) {
-            System.out.println("Error: " + e);
-        }
+        dataParser.load();
     }
 
     public static void main(String[] args) {

@@ -21,13 +21,13 @@ import java.util.zip.ZipOutputStream;
  * @author Protsvetov Danila
  */
 public class XmlData implements DataParser {
-    private String stationsFileName = "src\\ru\\solpro\\res\\stations.xml";
-    private String routesFileName = "src\\ru\\solpro\\res\\routes.xml";
-    private String trainsFileName = "src\\ru\\solpro\\res\\trains.xml";
-    private String archiveFileName = "src\\ru\\solpro\\res\\data.zip";
+    private String stationsFileName = "stations.xml";
+    private String routesFileName = "routes.xml";
+    private String trainsFileName = "trains.xml";
+    private String archiveFileName = "data.zip";
 
     @Override
-    public void save() throws IOException {
+    public void save() {
         try {
             //станции
             File file = new File(stationsFileName);
@@ -74,11 +74,15 @@ public class XmlData implements DataParser {
             zip();
         } catch (JAXBException e) {
             System.out.println("Error: " + e);
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: " + e);
+        } catch (IOException e) {
+            System.out.println("Error: " + e);
         }
     }
 
     @Override
-    public void load() throws IOException {
+    public void load() {
         try {
             unzip();
 
@@ -122,24 +126,30 @@ public class XmlData implements DataParser {
             Route.setCount(RouteModelController.getInstance().getRoutes().last().getId());
         } catch (JAXBException e) {
             System.out.println("Error: " + e);
+        }  catch (FileNotFoundException e) {
+            System.out.println("Error: " + e);
+        } catch (IOException e) {
+            System.out.println("Error: " + e);
         }
     }
 
     //архивирование файлов
     private void zip() throws IOException {
-        ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(new File(archiveFileName)));
+        ZipOutputStream zipOutputStream = new ZipOutputStream(
+                new FileOutputStream(
+                        new File(archiveFileName)));
 
         File stationsFile = new File(stationsFileName);
         zipOutputStream.putNextEntry(new ZipEntry(String.valueOf(stationsFile.getName())));
-        zWrite(new FileInputStream(stationsFile), zipOutputStream);
+        zipWrite(new FileInputStream(stationsFile), zipOutputStream);
 
         File routesFile = new File(routesFileName);
         zipOutputStream.putNextEntry(new ZipEntry(String.valueOf(routesFile.getName())));
-        zWrite(new FileInputStream(routesFile), zipOutputStream);
+        zipWrite(new FileInputStream(routesFile), zipOutputStream);
 
         File trainsFile = new File(trainsFileName);
         zipOutputStream.putNextEntry(new ZipEntry(String.valueOf(trainsFile.getName())));
-        zWrite(new FileInputStream(trainsFile), zipOutputStream);
+        zipWrite(new FileInputStream(trainsFile), zipOutputStream);
 
         zipOutputStream.flush();
         zipOutputStream.close();
@@ -157,12 +167,15 @@ public class XmlData implements DataParser {
 
         while (entries.hasMoreElements()) {
             ZipEntry zipEntry = (ZipEntry) entries.nextElement();
-            unzWrite(zipFile.getInputStream(zipEntry), new BufferedOutputStream(new FileOutputStream(new File(file.getParent(), zipEntry.getName()))));
+            unzipWrite(zipFile.getInputStream(zipEntry),
+                    new BufferedOutputStream(
+                            new FileOutputStream(
+                                    new File(file.getParent(), zipEntry.getName()))));
         }
         zipFile.close();
     }
 
-    private void zWrite(InputStream in, OutputStream out) throws IOException {
+    private void zipWrite(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int len;
         while ((len = in.read(buffer)) >= 0) {
@@ -171,7 +184,7 @@ public class XmlData implements DataParser {
         in.close();
     }
 
-    private void unzWrite(InputStream in, OutputStream out) throws IOException {
+    private void unzipWrite(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int len;
         while ((len = in.read(buffer)) >= 0) {

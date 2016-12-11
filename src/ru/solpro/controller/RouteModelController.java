@@ -128,7 +128,7 @@ public class RouteModelController implements ModelController<Route>, Serializabl
         if (departure == null || arrival == null || departure.equals(arrival)) {
             return false;
         }
-        return this.routes.add(new Route(departure, arrival));
+        return this.routes.add(new Route(idDeparture, idArrival));
     }
 
     @Override
