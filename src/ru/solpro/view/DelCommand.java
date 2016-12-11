@@ -1,3 +1,7 @@
+/*
+ * @(#)DelCommand.java 1.0 11.12.2016
+ */
+
 package ru.solpro.view;
 
 import ru.solpro.controller.TrainModelController;
@@ -15,9 +19,18 @@ import java.util.ArrayList;
 
 /**
  * Команда удаления данных
+ * @version 1.0 11 декабря 2016
  * @author Protsvetov Danila
  */
 public class DelCommand extends AlwaysCommand implements Command {
+
+    /**
+     * Выполнение команды.
+     * @param args    аргументы
+     * @return true - продолжить выполнение, false - завершить выполнение.
+     * @throws SystemException  ошибка при работе пользователя с программой.
+     * @throws IOException  ошибка ввыода/вывода
+     */
     @Override
     public boolean execute(String[] args) throws IOException, SystemException {
         if (args == null || args.length < 1 || args.length > 1) {
@@ -44,6 +57,9 @@ public class DelCommand extends AlwaysCommand implements Command {
         return true;
     }
 
+    /**
+     * Распечатать справку по команде.
+     */
     @Override
     public void printHelp() {
         System.out.println("Данная команда позволяет удалять данные из системы.");
@@ -54,11 +70,19 @@ public class DelCommand extends AlwaysCommand implements Command {
         System.out.println("SCHEDULE - удаление расписания у определённого поезда.");
     }
 
+    /**
+     * Имя команды.
+     * @return имя команды.
+     */
     @Override
     public String getName() {
         return "DEL";
     }
 
+    /**
+     * Описание команды.
+     * @return описание команды.
+     */
     @Override
     public String getDescription() {
         return "Удаление информации";
@@ -111,8 +135,9 @@ public class DelCommand extends AlwaysCommand implements Command {
 
         ArrayList<Train> trains = new ArrayList<>();
         //проверяются все поезда на совпадение с удаляемой станцией
-        for (Train train : trainModelController.getData()) {
-            if (train.getTrainTimetable().isEmpty() || train.getTrainTimetable() == null) {
+        for (Train train : trainModelController.getTrains()) {
+            if (train.getTrainTimetable().isEmpty() ||
+                    train.getTrainTimetable() == null) {
                 continue;
             }
             if (train.getTrainTimetable().first().getRoute().equals(route)) {
@@ -148,11 +173,12 @@ public class DelCommand extends AlwaysCommand implements Command {
 
         ArrayList<Route> routes = new ArrayList<>();
         //проверяются все маршруты на совпадение с удаляемой станцией
-        for (Route route : routeModelController.getData()) {
+        for (Route route : routeModelController.getRoutes()) {
             if (route == null) {
                 continue;
             }
-            if (route.getIdDeparture() == idStation || route.getIdArrival() == idStation) {
+            if (route.getIdDeparture() == idStation ||
+                    route.getIdArrival() == idStation) {
                 routes.add(route);
             }
         }

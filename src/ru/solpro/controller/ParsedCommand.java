@@ -1,13 +1,30 @@
+/*
+ * @(#)ParsedCommand.java 1.0 11.12.2016
+ */
+
 package ru.solpro.controller;
 
 /**
- * Created by Администратор on 30.11.2016.
+ * Разделение команды и параметров.
+ * @version 1.0 11 декабря 2016
+ * @author Protsvetov Danila
  */
 public class ParsedCommand {
+    /**
+     * Команда
+     */
     String command;
+
+    /**
+     * Массив параметров
+     */
     String[] args;
 
-    public ParsedCommand(String line) {
+    /**
+     * Конструктор
+     * @param line    строка ввода
+     */
+    ParsedCommand(String line) {
         String parts[] = line.split(" ");
         if (parts != null) {
             command = parts[0];

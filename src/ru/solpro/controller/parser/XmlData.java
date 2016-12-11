@@ -1,3 +1,7 @@
+/*
+ * @(#)XmlData.java 1.0 11.12.2016
+ */
+
 package ru.solpro.controller.parser;
 
 import ru.solpro.controller.RouteModelController;
@@ -17,15 +21,38 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 /**
- * Работа с данными в xml
+ * Работа с данными в xml.
+ * Сохранение с архивированием.
+ * Загрузка с распаковкой.
+ * @version 1.0 11 декабря 2016
  * @author Protsvetov Danila
  */
 public class XmlData implements DataParser {
+
+    /**
+     * Имя файла для хранения станций.
+     */
     private String stationsFileName = "stations.xml";
+
+    /**
+     * Имя файла для хранения маршрутов.
+     */
     private String routesFileName = "routes.xml";
+
+    /**
+     * Имя файла для хранения поездов.
+     */
     private String trainsFileName = "trains.xml";
+
+    /**
+     * Имя файла для хранения данных.
+     */
     private String archiveFileName = "data.zip";
 
+    /**
+     * Метод выполняющий сериализацию данных из приложения
+     * и последующее их сжатие в архив.
+     */
     @Override
     public void save() {
         try {
@@ -81,6 +108,12 @@ public class XmlData implements DataParser {
         }
     }
 
+    /**
+     * Метод выполняющий распаковку архива с данными и
+     * десериализацию распакованных данных в приложение.
+     * После завершения загрузки данных в приложение
+     * файлы *.xml удаляются.
+     */
     @Override
     public void load() {
         try {
@@ -133,7 +166,11 @@ public class XmlData implements DataParser {
         }
     }
 
-    //архивирование файлов
+    /**
+     * Архивирование файлов с данными приложения.
+     * После завершения архивации файлы *.xml удаляются.
+     * @throws IOException
+     */
     private void zip() throws IOException {
         ZipOutputStream zipOutputStream = new ZipOutputStream(
                 new FileOutputStream(
@@ -159,7 +196,25 @@ public class XmlData implements DataParser {
         trainsFile.delete();
     }
 
-    //разархивирование файлов
+    /**
+     * Метод для записи данных из in в out через буфер.
+     * @param in     Входной поток
+     * @param out    Выходной поток
+     * @throws IOException
+     */
+    private void zipWrite(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = in.read(buffer)) >= 0) {
+            out.write(buffer, 0, len);
+        }
+        in.close();
+    }
+
+    /**
+     * Разархивирование файлов с данными приложения.
+     * @throws IOException
+     */
     private void unzip() throws IOException {
         File file = new File(archiveFileName);
         ZipFile zipFile = new ZipFile(archiveFileName);
@@ -175,15 +230,13 @@ public class XmlData implements DataParser {
         zipFile.close();
     }
 
-    private void zipWrite(InputStream in, OutputStream out) throws IOException {
-        byte[] buffer = new byte[1024];
-        int len;
-        while ((len = in.read(buffer)) >= 0) {
-            out.write(buffer, 0, len);
-        }
-        in.close();
-    }
-
+    /**
+     * Метод для записи данных из in в out через буфер
+     * с закрытием выходного потока.
+     * @param in     Входной поток
+     * @param out    Выходной поток
+     * @throws IOException
+     */
     private void unzipWrite(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int len;

@@ -1,3 +1,7 @@
+/*
+ * @(#)ViewCommand.java 1.0 11.12.2016
+ */
+
 package ru.solpro.view;
 
 import ru.solpro.controller.*;
@@ -11,7 +15,19 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * @version 1.0 11 декабря 2016
+ * @author Protsvetov Danila
+ */
 public class ViewCommand extends AlwaysCommand implements Command {
+
+    /**
+     * Выполнение команды.
+     * @param args    аргументы
+     * @return true - продолжить выполнение, false - завершить выполнение.
+     * @throws SystemException  ошибка при работе пользователя с программой.
+     * @throws IOException  ошибка ввыода/вывода
+     */
     @Override
     public boolean execute(String[] args) throws SystemException, IOException{
         if (args == null) {
@@ -45,6 +61,9 @@ public class ViewCommand extends AlwaysCommand implements Command {
         return true;
     }
 
+    /**
+     * Распечатать справку по команде.
+     */
     @Override
     public void printHelp() {
         getDescription();
@@ -57,69 +76,79 @@ public class ViewCommand extends AlwaysCommand implements Command {
         System.out.println("SCHEDULE [номер поезда]- выводит расписание определённого поезда.");
     }
 
+    /**
+     * Имя команды.
+     * @return имя команды.
+     */
     @Override
     public String getName() {
         return "VIEW";
     }
 
+    /**
+     * Описание команды.
+     * @return описание команды.
+     */
     @Override
     public String getDescription() {
         return "Отображение данных системы.";
     }
 
     /**
-     * Вывод списка станций в системе
+     * Вывод списка всех станций в системе
      */
     private void viewStations() throws SystemException {
         StationModelController stationController = StationModelController.getInstance();
-        if (stationController.getData().isEmpty()) {
+        if (stationController.getStations().isEmpty()) {
             error("Не определено ни одной станции.");
             return;
         }
-        for (Station station : stationController.getData()) {
+        for (Station station : stationController.getStations()) {
             System.out.println(station.getId() + ". " + station);
         }
     }
 
     /**
-     * Вывод списка маршрутов в системе
+     * Вывод списка всех маршрутов в системе
      */
     private void viewRoutes() throws SystemException {
         RouteModelController routeController = RouteModelController.getInstance();
-        if (routeController.getData().isEmpty()) {
+        if (routeController.getRoutes().isEmpty()) {
             error("Не определено ни одного маршрута.");
             return;
         }
-        for (Route route : routeController.getData()) {
+        for (Route route : routeController.getRoutes()) {
             System.out.println(route.getId() + ". " + route);
         }
     }
 
     /**
-     * Вывод списка поездов в системе
+     * Вывод списка всех поездов в системе
      */
     private void viewTrains() throws SystemException {
         TrainModelController trainModelController = TrainModelController.getInstance();
-        if (trainModelController.getData().isEmpty()) {
+        if (trainModelController.getTrains().isEmpty()) {
             error("Не определено ни одного поезда.");
             return;
         }
-        for (Train train : trainModelController.getData()) {
+        for (Train train : trainModelController.getTrains()) {
             System.out.println(train);
         }
     }
 
     /**
-     * Расписание поездов за ближайшие 24 часа
+     * Расписание всех поездов за ближайшие 24 часа
      */
     private void viewSchedule() throws SystemException {
         TrainModelController trainModelController = TrainModelController.getInstance();
-        if (trainModelController.getData().isEmpty()) {
+        if (trainModelController.getTrains().isEmpty()) {
             error("Не определено ни одного поезда.");
             return;
         }
+
         LinkedHashMap<Train, ArrayList<Schedule>> result = trainModelController.viewSchedule();
         Iterator<Map.Entry<Train, ArrayList<Schedule>>> iterator = result.entrySet().iterator();
+
         while (iterator.hasNext()) {
             Map.Entry<Train, ArrayList<Schedule>> listEntry = iterator.next();
             for (Schedule schedule : listEntry.getValue()) {
@@ -134,7 +163,7 @@ public class ViewCommand extends AlwaysCommand implements Command {
      */
     private void viewSchedule(int numberTrain) throws SystemException {
         TrainModelController trainModelController = TrainModelController.getInstance();
-        if (trainModelController.getData().isEmpty()) {
+        if (trainModelController.getTrains().isEmpty()) {
             error("Не определено ни одного поезда.");
             return;
         }

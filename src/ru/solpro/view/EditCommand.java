@@ -1,3 +1,7 @@
+/*
+ * @(#)EditCommand.java 1.0 11.12.2016
+ */
+
 package ru.solpro.view;
 
 import ru.solpro.controller.TrainModelController;
@@ -18,10 +22,18 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Created by danila on 06.12.2016.
+ * @version 1.0 11 декабря 2016
  * @author Protsvetov Danila
  */
 public class EditCommand extends AlwaysCommand implements Command {
+
+    /**
+     * Выполнение команды.
+     * @param args    аргументы
+     * @return true - продолжить выполнение, false - завершить выполнение.
+     * @throws SystemException  ошибка при работе пользователя с программой.
+     * @throws IOException  ошибка ввыода/вывода
+     */
     @Override
     public boolean execute(String[] args) throws SystemException, IOException {
         if (args == null || args.length < 1 || args.length > 1) {
@@ -45,6 +57,9 @@ public class EditCommand extends AlwaysCommand implements Command {
         return true;
     }
 
+    /**
+     * Распечатать справку по команде.
+     */
     @Override
     public void printHelp() {
         System.out.println("Данная команда позволяет изменять данные в системе.");
@@ -54,11 +69,19 @@ public class EditCommand extends AlwaysCommand implements Command {
         System.out.println("TRAIN - изменение поезда.");
     }
 
+    /**
+     * Имя команды.
+     * @return имя команды.
+     */
     @Override
     public String getName() {
         return "EDIT";
     }
 
+    /**
+     * Описание команды.
+     * @return описание команды.
+     */
     @Override
     public String getDescription() {
         return "Редактирование данных.";
@@ -77,7 +100,8 @@ public class EditCommand extends AlwaysCommand implements Command {
         }
         System.out.println("\tВыбран поезд: " + editTrain);
 
-        System.out.print("\tВведите новый номер поезда (если изменять не нужно, оставте поле пустым): ");
+        System.out.print("\tВведите новый номер поезда " +
+                "(если изменять не нужно, оставте поле пустым): ");
         String str1 = reader.readLine();
         Integer newNumberTrain;
         if ("".equals(str1)) {
@@ -86,7 +110,8 @@ public class EditCommand extends AlwaysCommand implements Command {
             newNumberTrain = Integer.parseInt(str1);
         }
 
-        System.out.print("\tВведите новый id маршрута (если изменять не нужно, оставте поле пустым): ");
+        System.out.print("\tВведите новый id маршрута " +
+                "(если изменять не нужно, оставте поле пустым): ");
         String str2 = reader.readLine();
         Integer newRouteId;
         if ("".equals(str2)) {
@@ -112,11 +137,13 @@ public class EditCommand extends AlwaysCommand implements Command {
      * @throws IOException
      * @throws SystemException
      */
-    private void editTrainRoute(Train train, Route routeId) throws IOException, SystemException {
+    private void editTrainRoute(Train train,
+                                Route routeId) throws IOException, SystemException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         TrainModelController trainModelController = TrainModelController.getInstance();
 
-        System.out.println("\tПосле изменения маршрута необходимо добавить запись в расписание.");
+        System.out.println("\tПосле изменения маршрута " +
+                "необходимо добавить запись в расписание.");
         System.out.print("\tДата отправления (dd.mm.yyyy): ");
         String strDateDep = reader.readLine();
 
@@ -142,9 +169,11 @@ public class EditCommand extends AlwaysCommand implements Command {
         Integer timeArrMinutes = Integer.parseInt(strTimeArrMinutes);
 
         if (timeArrMinutes == 0) {
-            trainModelController.addScheduleLine(routeId.getId(), train.getTrainNumber(), depDateTime, timeArrHours);
+            trainModelController.addScheduleLine(routeId.getId(),
+                    train.getTrainNumber(), depDateTime, timeArrHours);
         } else {
-            trainModelController.addScheduleLine(routeId.getId(), train.getTrainNumber(), depDateTime, timeArrHours, timeArrMinutes);
+            trainModelController.addScheduleLine(routeId.getId(),
+                    train.getTrainNumber(), depDateTime, timeArrHours, timeArrMinutes);
         }
         System.out.println("Расписание успешно добавлено.");
     }
@@ -161,7 +190,8 @@ public class EditCommand extends AlwaysCommand implements Command {
             error("Не найден маршрут для редактирования.");
         }
 
-        System.out.print("\tВведите новый id станции отправления (если изменять не нужно, оставте поле пустым): ");
+        System.out.print("\tВведите новый id станции отправления " +
+                "(если изменять не нужно, оставте поле пустым): ");
         String str1 = reader.readLine();
         Integer newIdDepSt;
         if ("".equals(str1)) {
@@ -174,7 +204,8 @@ public class EditCommand extends AlwaysCommand implements Command {
             error("Станция с id=" + newIdDepSt + " не найдена.");
         }
 
-        System.out.print("\tВведите новый id станции назначения (если изменять не нужно, оставте поле пустым): ");
+        System.out.print("\tВведите новый id станции назначения " +
+                "(если изменять не нужно, оставте поле пустым): ");
         String str2 = reader.readLine();
         Integer newIdArrSt;
         if ("".equals(str2)) {

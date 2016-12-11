@@ -1,3 +1,7 @@
+/*
+ * @(#)Schedule.java 1.0 11.12.2016
+ */
+
 package ru.solpro.model;
 
 import ru.solpro.controller.adapter.LocalDateTimeAdapter;
@@ -12,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * Класс-модель для расписания каждой электрички
- *
+ * @version 1.0 11 декабря 2016
  * @author Protsvetov Danila
  */
 
@@ -22,25 +26,51 @@ import java.time.format.DateTimeFormatter;
         "hour",
         "min"})
 public class Schedule implements Comparable<Schedule>, Serializable {
-//    private static int count;
+
+    /**
+     * id расписания.
+     */
     private int id;
+
+    /**
+     * Маршрут.
+     */
     private Route route;
-    private LocalDateTime departureDateTime;    //дата/время отправления
-    private long hour;                          //время в пути
-    private long min;                           //время в пути
 
-//    public static void serializeStatic(ObjectOutputStream objectOutputStream) throws IOException {
-//        objectOutputStream.writeInt(count);
-//    }
-//
-//    public static void deserializeStatic(ObjectInputStream objectInputStream) throws IOException {
-//        count = objectInputStream.readInt();
-//    }
+    /**
+     * Дата и время отправления.
+     */
+    private LocalDateTime departureDateTime;
 
-    public Schedule() {
-    }
+    /**
+     * Время движения в часах.
+     */
+    private long hour;
 
-    Schedule(int id, Route route, LocalDateTime departureDateTime, long hour, long min) {
+    /**
+     * Время движения в минутах (0-59)
+     */
+    private long min;
+
+    /**
+     * Конструктор без параметров.
+     * Используется для работы с xml.
+     */
+    public Schedule() {}
+
+    /**
+     * Создание расписания.
+     * @param id                   id строки расписания.
+     * @param route                маршрут.
+     * @param departureDateTime    дата/время отправления.
+     * @param hour                 время движения (часов)
+     * @param min                  время движения (минут)
+     */
+    Schedule(int id,
+             Route route,
+             LocalDateTime departureDateTime,
+             long hour,
+             long min) {
         this.id = id;
         this.route = route;
         this.departureDateTime = departureDateTime;
@@ -48,59 +78,114 @@ public class Schedule implements Comparable<Schedule>, Serializable {
         this.min = min;
     }
 
+    /**
+     * Геттер
+     * @return
+     */
     @XmlElement
     public long getHour() {
         return hour;
     }
 
+    /**
+     * Сеттер
+     * @param hour    время движения в часах
+     */
     public void setHour(long hour) {
         this.hour = hour;
     }
 
+    /**
+     * Геттер
+     * @return
+     */
     @XmlElement
     public long getMin() {
         return min;
     }
 
+    /**
+     * Сеттер
+     * @param min    время движения минут
+     */
     public void setMin(long min) {
         this.min = min;
     }
 
+    /**
+     * Геттер
+     * @return id
+     */
     @XmlAttribute(name = "id")
     public int getId() {
         return id;
     }
 
+    /**
+     * Сеттер
+     * @param id    id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Геттер
+     * @return маршрут
+     */
     @XmlElement
     public Route getRoute() {
         return route;
     }
 
+    /**
+     * Сеттер
+     * @param route    маршрут
+     */
     public void setRoute(Route route) {
         this.route = route;
     }
 
+    /**
+     * Геттер
+     * @return дата/время отправления.
+     */
     @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
     public LocalDateTime getDepartureDateTime() {
         return departureDateTime;
     }
 
+    /**
+     * Сеттер
+     * @param departureDateTime    дата/время отправления.
+     */
     public void setDepartureDateTime(LocalDateTime departureDateTime) {
         this.departureDateTime = departureDateTime;
     }
 
+    /**
+     * Геттер
+     * @return дата/время прибытия.
+     */
     private LocalDateTime getArrivalDateTime() {
         return departureDateTime.plusHours(hour).plusMinutes(min);
     }
 
+    /**
+     * Геттер времени движения.
+     * @return время движения HH:mm
+     */
     private String getTravelTime() {
         return hour + ":" + min;
     }
 
+    /**
+     * Переопределение для реализации интерфейса Comparable.
+     * @param o    экземпляр
+     * @return 1 - текущий объект больше o
+     *         -1 - текущий объект меньше о
+     *         0 - объекты равны
+     */
     @Override
     public int compareTo(Schedule o) {
         if (departureDateTime.isAfter(o.departureDateTime)) {
@@ -112,6 +197,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
         }
     }
 
+    /**
+     * Для текущего объекта в виде строки.
+     * @return Строка.
+     */
     @Override
     public String toString() {
         return "[" + id + "] Отправление " +

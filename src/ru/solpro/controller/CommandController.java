@@ -1,3 +1,7 @@
+/*
+ * @(#)CommandController.java 1.0 11.12.2016
+ */
+
 package ru.solpro.controller;
 
 import ru.solpro.view.*;
@@ -9,16 +13,28 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by Администратор on 30.11.2016.
+ * Контроллер команд приложения.
+ * @version 1.0 11 декабря 2016
  * @author Protsvetov Danila
  */
 public class CommandController {
+    /**
+     * Хранение всех команд приложения.
+     */
     private static Map<String, Command> commands;
 
+    /**
+     * Геттер для получения всех команд приложения.
+     * @return  Все команды приложения.
+     */
     public static Map<String, Command> getCommands() {
         return commands;
     }
 
+    /**
+     * Конструктор выполняет ленивую инициализацию
+     * с последующим добавлением команд.
+     */
     public CommandController() {
         commands = new TreeMap<>();
         Command cmd;
@@ -45,6 +61,9 @@ public class CommandController {
         commands.put(cmd.getName(), cmd);
     }
 
+    /**
+     * Метод ожидает ввода команды и производит её выполнение.
+     */
     public void execute() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         boolean result = true;

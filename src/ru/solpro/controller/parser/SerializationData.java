@@ -1,10 +1,13 @@
+/*
+ * @(#)SerializationData.java 1.0 11.12.2016
+ */
+
 package ru.solpro.controller.parser;
 
 import ru.solpro.controller.TrainModelController;
 import ru.solpro.controller.RouteModelController;
 import ru.solpro.controller.StationModelController;
 import ru.solpro.model.Route;
-import ru.solpro.model.Schedule;
 import ru.solpro.model.Station;
 
 import java.io.*;
@@ -12,28 +15,45 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 /**
- * Класс выполняет сериализацию/десериализацию со сжатием данных
+ * Сериализация/десериализация со сжатием данных.
+ * @version 1.0 11 декабря 2016
  * @author Protsvetov Danila
  */
 public class SerializationData implements DataParser {
-    private String stationsFileName = "src\\ru\\solpro\\res\\stations.data";
-    private String routesFileName = "src\\ru\\solpro\\res\\routes.data";
-    private String trainsFileName = "src\\ru\\solpro\\res\\trains.data";
 
+    /**
+     * Файл для хранения станций.
+     */
+    private String stationsFileName = "stations.data";
+
+    /**
+     * Файл для хранения маршрутов.
+     */
+    private String routesFileName = "routes.data";
+
+    /**
+     * Файл для хранения поездов.
+     */
+    private String trainsFileName = "trains.data";
+
+    /**
+     * Метод выполняющий маршаллизацию данных из приложения.
+     */
     @Override
     public void save() {
+        StationModelController stationModelController = StationModelController.getInstance();
+        RouteModelController routeModelController = RouteModelController.getInstance();
+        TrainModelController trainModelController = TrainModelController.getInstance();
+
+        FileOutputStream fileOutputStream;
+        GZIPOutputStream gzipOutputStream;
+        ObjectOutputStream objectOutputStream;
+
         try {
-            StationModelController stationModelController = StationModelController.getInstance();
-            RouteModelController routeModelController = RouteModelController.getInstance();
-            TrainModelController trainModelController = TrainModelController.getInstance();
-
-            FileOutputStream fileOutputStream;
-            GZIPOutputStream gzipOutputStream;
-            ObjectOutputStream objectOutputStream;
-
             fileOutputStream = new FileOutputStream(stationsFileName);
             gzipOutputStream = new GZIPOutputStream(fileOutputStream);
             objectOutputStream = new ObjectOutputStream(gzipOutputStream);
+
             Station.serializeStatic(objectOutputStream);
             objectOutputStream.writeObject(stationModelController);
             objectOutputStream.flush();
@@ -42,6 +62,7 @@ public class SerializationData implements DataParser {
             fileOutputStream = new FileOutputStream(routesFileName);
             gzipOutputStream = new GZIPOutputStream(fileOutputStream);
             objectOutputStream = new ObjectOutputStream(gzipOutputStream);
+
             Route.serializeStatic(objectOutputStream);
             objectOutputStream.writeObject(routeModelController);
             objectOutputStream.flush();
@@ -50,6 +71,7 @@ public class SerializationData implements DataParser {
             fileOutputStream = new FileOutputStream(trainsFileName);
             gzipOutputStream = new GZIPOutputStream(fileOutputStream);
             objectOutputStream = new ObjectOutputStream(gzipOutputStream);
+
             objectOutputStream.writeObject(trainModelController);
             objectOutputStream.flush();
             objectOutputStream.close();
@@ -60,6 +82,9 @@ public class SerializationData implements DataParser {
         }
     }
 
+    /**
+     * Метод выполняющий демаршаллизацию данных из приложения.
+     */
     @Override
     public void load() {
         FileInputStream fileInputStream;

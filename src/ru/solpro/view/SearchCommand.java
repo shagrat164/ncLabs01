@@ -1,5 +1,10 @@
+/*
+ * @(#)SearchCommand.java 1.0 11.12.2016
+ */
+
 package ru.solpro.view;
 
+import ru.solpro.controller.SystemException;
 import ru.solpro.controller.TrainModelController;
 import ru.solpro.controller.RouteModelController;
 import ru.solpro.controller.StationModelController;
@@ -13,11 +18,20 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
+ * @version 1.0 11 декабря 2016
  * @author Protsvetov Danila
  */
 public class SearchCommand implements Command {
+
+    /**
+     * Выполнение команды.
+     * @param args    аргументы
+     * @return true - продолжить выполнение, false - завершить выполнение.
+     * @throws SystemException  ошибка при работе пользователя с программой.
+     * @throws IOException  ошибка ввыода/вывода
+     */
     @Override
-    public boolean execute(String[] args) throws IOException {
+    public boolean execute(String[] args) throws SystemException, IOException {
         if (args == null || args.length < 1 || args.length > 1) {
             printHelp();
             return true;
@@ -38,6 +52,9 @@ public class SearchCommand implements Command {
         return true;
     }
 
+    /**
+     * Распечатать справку по команде.
+     */
     @Override
     public void printHelp() {
         System.out.println("Поддерживаются символы * и ?");
@@ -47,11 +64,19 @@ public class SearchCommand implements Command {
         System.out.println("TRAIN - поиск поезда по его номеру.");
     }
 
+    /**
+     * Имя команды.
+     * @return имя команды.
+     */
     @Override
     public String getName() {
         return "SEARCH";
     }
 
+    /**
+     * Описание команды.
+     * @return описание команды.
+     */
     @Override
     public String getDescription() {
         return "Поиск данных в системе.";
