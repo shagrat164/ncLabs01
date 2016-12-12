@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
+ * Команда поиска.
  * @version 1.0 11 декабря 2016
  * @author Protsvetov Danila
  */
@@ -82,6 +83,9 @@ public class SearchCommand implements Command {
         return "Поиск данных в системе.";
     }
 
+	/**
+	 * Поиск станции.
+	 */
     private void searchStation() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         StationModelController stationController = StationModelController.getInstance();
@@ -99,6 +103,9 @@ public class SearchCommand implements Command {
         }
     }
 
+	/**
+	 * Поиск маршрута.
+	 */
     private void searchRoute() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         RouteModelController routeController = RouteModelController.getInstance();
@@ -116,6 +123,9 @@ public class SearchCommand implements Command {
         }
     }
 
+	/**
+	 * Поиск поезда.
+	 */
     private void searchTrain() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         TrainModelController trainModelController = TrainModelController.getInstance();

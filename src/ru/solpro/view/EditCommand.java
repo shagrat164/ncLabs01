@@ -22,6 +22,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
+ * Команда редактирования.
  * @version 1.0 11 декабря 2016
  * @author Protsvetov Danila
  */
@@ -178,6 +179,9 @@ public class EditCommand extends AlwaysCommand implements Command {
         System.out.println("Расписание успешно добавлено.");
     }
 
+	/**
+	 * Редактирование маршрута.
+	 */
     private void editRoute() throws IOException, SystemException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         StationModelController stationModelController = StationModelController.getInstance();
@@ -222,6 +226,9 @@ public class EditCommand extends AlwaysCommand implements Command {
         editRoute.setIdArrival(newIdArrSt);
     }
 
+	/**
+	 * Редактирование станции.
+	 */
     private void editStation() throws IOException, SystemException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         StationModelController stationModelController = StationModelController.getInstance();

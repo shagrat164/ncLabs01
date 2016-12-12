@@ -16,6 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * Команда просмотра.
  * @version 1.0 11 декабря 2016
  * @author Protsvetov Danila
  */

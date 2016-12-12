@@ -12,6 +12,7 @@ import ru.solpro.controller.parser.XmlData;
 import java.io.IOException;
 
 /**
+ * Команда выхода.
  * @version 1.0 11 декабря 2016
  * @author Protsvetov Danila
  */
